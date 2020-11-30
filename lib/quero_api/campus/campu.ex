@@ -5,7 +5,9 @@ defmodule QueroApi.Campus.Campu do
   schema "campus" do
     field :city, :string
     field :name, :string
-    field :university_id, :id
+
+    belongs_to :university, QueroApi.Universities.University
+    has_many :courses, QueroApi.Courses.Course
 
     timestamps()
   end

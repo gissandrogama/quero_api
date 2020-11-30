@@ -7,6 +7,8 @@ defmodule QueroApi.Universities.University do
     field :name, :string
     field :score, :float
 
+    has_many :campus, QueroApi.Campus.Campu
+
     timestamps()
   end
 

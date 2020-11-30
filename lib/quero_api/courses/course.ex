@@ -7,7 +7,9 @@ defmodule QueroApi.Courses.Course do
     field :level, :string
     field :name, :string
     field :shift, :string
-    field :campu_id, :id
+
+    belongs_to :campu, QueroApi.Campus.Campu
+    has_one :offers, QueroApi.Offers.Offer
 
     timestamps()
   end
