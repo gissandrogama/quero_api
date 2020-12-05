@@ -9,7 +9,5 @@ defmodule QueroApi.Repo.Migrations.CreateCampus do
 
       timestamps()
     end
-
-    create index(:campus, [:university_id])
   end
 end

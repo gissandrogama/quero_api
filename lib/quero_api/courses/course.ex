@@ -2,14 +2,17 @@ defmodule QueroApi.Courses.Course do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias QueroApi.{Campus, CampusCourses, CoursesOffers}
+  alias QueroApi.Offers.Offer
+
   schema "courses" do
     field :kind, :string
     field :level, :string
     field :name, :string
     field :shift, :string
 
-    belongs_to :campu, QueroApi.Campus.Campu
-    has_one :offers, QueroApi.Offers.Offer
+    many_to_many :campus, Campus.Campu, join_through: CampusCourses.CampusCourse
+    many_to_many :offers, Offer, join_through: CoursesOffers.CoursesOffer
 
     timestamps()
   end
@@ -18,6 +21,9 @@ defmodule QueroApi.Courses.Course do
   def changeset(course, attrs) do
     course
     |> cast(attrs, [:name, :kind, :level, :shift])
+    |> unsafe_validate_unique([:name, :kind, :shift], QueroApi.Repo)
+    |> unique_constraint([:name, :kind, :shift])
+    |> cast_assoc(:offers, with: &Offer.changeset/2)
     |> validate_required([:name, :kind, :level, :shift])
   end
 end

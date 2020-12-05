@@ -9,11 +9,8 @@ defmodule QueroApi.Repo.Migrations.CreateOffers do
       add :start_date, :string
       add :enrollment_semester, :string
       add :enabled, :boolean, default: false, null: false
-      add :course_id, references(:courses, on_delete: :nilify_all, on_update: :nilify_all)
 
       timestamps()
     end
-
-    create index(:offers, [:course_id])
   end
 end

@@ -9,7 +9,7 @@ defmodule QueroApi.Offers.Offer do
     field :full_price, :float
     field :price_with_discount, :float
     field :start_date, :string
-    belongs_to :course, QueroApi.Courses.Course
+    many_to_many :courses, QueroApi.Courses.Course, join_through: QueroApi.CoursesOffers.CoursesOffer
 
     timestamps()
   end

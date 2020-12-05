@@ -9,6 +9,5 @@ defmodule QueroApi.Repo.Migrations.CreateUniversities do
 
       timestamps()
     end
-
   end
 end

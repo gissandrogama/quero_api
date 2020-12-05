@@ -7,11 +7,8 @@ defmodule QueroApi.Repo.Migrations.CreateCourses do
       add :kind, :string
       add :level, :string
       add :shift, :string
-      add :campu_id, references(:campus, on_delete: :nilify_all, on_update: :nilify_all)
 
       timestamps()
     end
-
-    create index(:courses, [:campu_id])
   end
 end
