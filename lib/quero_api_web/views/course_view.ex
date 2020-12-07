@@ -3,6 +3,7 @@ defmodule QueroApiWeb.CourseView do
   alias QueroApiWeb.CourseView
 
   def render("index.json", %{courses: courses}) do
+    IO.inspect(courses)
     %{data: render_many(courses, CourseView, "course.json")}
   end
 
@@ -11,10 +12,14 @@ defmodule QueroApiWeb.CourseView do
   end
 
   def render("course.json", %{course: course}) do
-    %{id: course.id,
+    IO.inspect(course)
+
+    %{
+      id: course.id,
       name: course.name,
       kind: course.kind,
       level: course.level,
-      shift: course.shift}
+      shift: course.shift
+    }
   end
 end

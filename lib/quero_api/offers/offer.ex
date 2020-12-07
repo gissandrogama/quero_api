@@ -18,6 +18,8 @@ defmodule QueroApi.Offers.Offer do
   def changeset(offer, attrs) do
     offer
     |> cast(attrs, [:full_price, :price_with_discount, :discount_percentage, :start_date, :enrollment_semester, :enabled])
+    |> unsafe_validate_unique([:full_price, :price_with_discount, :discount_percentage, :start_date, :enrollment_semester, :enabled], QueroApi.Repo)
+    |> unique_constraint([:full_price, :price_with_discount, :discount_percentage, :start_date, :enrollment_semester, :enabled])
     |> validate_required([:full_price, :price_with_discount, :discount_percentage, :start_date, :enrollment_semester, :enabled])
   end
 end

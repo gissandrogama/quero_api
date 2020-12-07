@@ -1,6 +1,13 @@
 defmodule QueroApi.Seeds do
+  @moduledoc """
+  Este modulo possui funções que automatizão a inserção de dados apartir de um arquivo json e
+  mapeia das associações de relações do banco de dados.
+  """
+
   @spec university(String) :: [map()]
   def university(name) do
+    insert_courses()
+    insert_offers()
     Enum.filter(db_json(), fn universities -> universities["university"]["name"] == name end)
     |> insert_university()
     |> insert_campus(name)

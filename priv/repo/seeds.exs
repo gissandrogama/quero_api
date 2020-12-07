@@ -263,3 +263,36 @@ course_offers =
     course_offers = Enum.map(course_offers, fn {course, offer} -> {QueroApi.Repo.preload(course, :offers), offer} end)
     course_offers = Enum.map(course_offers, fn {course, offer} -> {QueroApi.Courses.change_course(course), offer} end)
     course_offers = Enum.map(course_offers, fn {course, offer} -> Ecto.Changeset.put_assoc(course, :offers, [offer]) end)
+
+
+    #consulta que junta universidade com cursos
+    query = from u in QueroApi.Universities.University, join: c in QueroApi.Campus.Campu, on: c.university_id == u.id
+
+    #juntar campus com cursos
+    query = from [u, c] in query, join: cc in QueroApi.CampusCourses.CampusCourse, on: cc.campu_id == c.id
+
+    query = from [u, c, cc] in query, join: cs in QueroApi.Courses.Course, on: cs.id == cc.course_id
+
+    query = from [u, c, cc, cs] in query, select: {cs.name, cs.kind, cs.level, cs.shift, u.name, u.logo_url, u.score, c.name, c.city}
+
+    activities = Repo.all(from a in Activity,
+ preload: [:cities],
+ left_join: ac in ActivityCity, on: a.id == ac.activity_id,
+ left_join: c in City, on: c.id == ac.city_id,
+ where: like(c.name, ^city)
+ )
+
+ campus_courses = QueroApi.CampusCourses.list_campus_courses |> Enum.map(fn campu_course -> QueroApi.Repo.preload(campu_course, [:course, :campu]) end) |> Enum.map(fn campu_course -> {QueroApi.Repo.preload(campu_course.campu, :university), campu_course.course} end)
+
+ Enum.map(campus_courses, fn {campus, courses} -> %{courses: %{name: courses.name, kind: courses.kind, level: courses.level, shift: courses.shift}, university: %{name: campus.university.name, logo_url: campus.university.logo_url, score: campus.university.score}, campus: %{name: campus.name, city: campus.city}} end)
+
+
+ query = from cs in QueroApi.Courses.Course, join: cc in QueroApi.CampusCourses.CampusCourse, on: cs.id == cc.course_id
+
+ query = from [cs, cc] in query, join: ca in QueroApi.Campus.Campu, on: ca.id == cc.campu_id
+
+ query = from [cs, cc, ca] in query, join: u in QueroApi.Universities.University, on: ca.university_id == u.id
+
+ query = from [cs, cc, ca, u] in query, select: %{course: cs, campu: ca, university: u}
+
+ QueroApi.Repo.all(query)
