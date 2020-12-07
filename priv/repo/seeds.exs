@@ -14,6 +14,7 @@
 # alias QueroApi.{Repo, Universities, Campus, Courses, Offers}
 
 campus_unip = ["Jardim das Indústrias", "Água Branca", "Jaguaré", "Parque São Jorge", "Paraíso"]
+courses_unip = ["Engenharia Mecânica", "Jornalismo", "Biomedicina", "Arquitetura e Urbanismo", "Propaganda e Marketing"]
 campus_anhembi = ["Vila Olímpia", "Bela Vista"]
 campus_unicsul = ["Paulista", "Anália Franco", "Liberdade", "São Miguel Paulista"]
 campus_anhanguera = ["Rio Comprido"]
@@ -201,3 +202,64 @@ campus = Enum.map(campus_etep, fn name ->
 Enum.map(campus, fn campu ->
   QueroApi.Campus.update_campu(campu, %{university_id: etep.id})
 end)
+
+#associação entre campus e courses
+
+course = QueroApi.Courses.Course |> where([c], c.name == "Engenharia Mecânica") |> QueroApi.Repo.all()
+#caso a lista estaja mais de um item
+course = List.first(course)
+campus = QueroApi.Repo.get_by(QueroApi.Campus.Campu, name: "Jardim das Indústrias") |> QueroApi.Repo.preload([:courses])
+campus_changeset = Ecto.Changeset.change(campus)
+campu_courses_changeset = campus_changeset |> Ecto.Changeset.put_assoc(:courses, [course])
+QueroApi.Repo.update!(campu_courses_changeset)
+
+
+data = File.read!("./priv/repo/db.json") |> Jason.decode!()
+
+["UNIP", "Anhembi Morumbi", "UNICSUL", "Anhanguera", "Estácio", "Unopar", "ETEP"]
+
+#listar campos da bando de dados
+list_campus = QueroApi.Campus.list_campus
+
+#lista de campus e curso de uma determinada universidade
+lista_data_campus = Enum.filter(data, fn campus ->  campus["university"]["name"] == "Estácio" end)
+lista_campus_courses = Enum.map(lista_data_university, fn campus_courses ->  {campus_courses["campus"], campus_courses["course"]} end)
+lista_data_campus = Enum.map(lista_data_campus, fn {campus, courses} ->  {campus, %{name: courses["name"], kind: courses["kind"], level: courses["level"], shift: courses["shift"]}} end)
+
+
+#juntar campus do banco com parametros de course
+campus_courses = for {campu, course} <- lista_data_campus, campus <- list_campus, campu["name"] == campus.name,  do: {campus, course}
+campus_courses = for {campu, course} <- campus_courses, courses_map <- courses, course["name"] == courses_map.name, course["kind"] == courses_map.kind, course["level"] == courses_map.level, course["shift"] == courses_map.shift,  do: {campu, courses_map}
+campus_courses = Enum.map(campus_courses, fn {campus, courses} -> {QueroApi.Repo.preload(campus, :courses), courses} end)
+campus_courses = Enum.map(campus_courses, fn {campus, courses} -> {QueroApi.Campus.change_campu(campus), courses} end)
+campus_courses = Enum.map(campus_courses, fn {campus, courses} -> Ecto.Changeset.put_assoc(campus, :courses, [courses]) end)
+Enum.map(campus_courses, fn courses -> QueroApi.Repo.update!(courses) end)
+
+Enum.filter(data, fn campu -> campu["university"]["name"] == "Anhanguera" end)
+Enum.map(list_anhanguera, fn courses_offers ->
+  {courses_offers["course"],
+   %{
+     "full_price" => courses_offers["full_price"],
+     "price_with_discount" => courses_offers["price_with_discount"],
+     "discount_percentage" => courses_offers["discount_percentage"],
+     "start_date" => courses_offers["start_date"],
+     "enrollment_semester" => courses_offers["enrollment_semester"],
+     "enabled" => courses_offers["enabled"]
+   }}
+end)
+
+course_offers = for {course, offer} <- list_course_offers, courses_map <- anhanguera, course["name"] == courses_map.name, course["kind"] == courses_map.kind, course["level"] == courses_map.level, course["shift"] == courses_map.shift, do: {courses_map, offer}
+course_offers =
+  for {course, offer} <- course_offers,
+      offers_map <- offers,
+      offer["full_price"] == offers_map.full_price,
+      offer["price_with_discount"] == offers_map.price_with_discount,
+      offer["discount_percentage"] == offers_map.discount_percentage,
+      offer["start_date"] == offers_map.start_date,
+      offer["enrollment_semester"] == offers_map.enrollment_semester,
+      offer["enabled"] == offers_map.enabled,
+      do: {course, offers_map}
+
+    course_offers = Enum.map(course_offers, fn {course, offer} -> {QueroApi.Repo.preload(course, :offers), offer} end)
+    course_offers = Enum.map(course_offers, fn {course, offer} -> {QueroApi.Courses.change_course(course), offer} end)
+    course_offers = Enum.map(course_offers, fn {course, offer} -> Ecto.Changeset.put_assoc(course, :offers, [offer]) end)

@@ -18,7 +18,7 @@ defmodule QueroApi.Universities.University do
   def changeset(university, attrs) do
     university
     |> cast(attrs, [:name, :score, :logo_url])
-    |> unsafe_validate_unique(:name, QueroApi.Repo)
+    |> unsafe_validate_unique(:name, QueroApi.Repo, message: "universidade já cadastrada")
     |> unique_constraint(:name)
     |> cast_assoc(:campus, with: &Campu.changeset/2)
     |> validate_required([:name, :score, :logo_url, :campus])

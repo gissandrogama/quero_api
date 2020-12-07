@@ -9,5 +9,7 @@ defmodule QueroApi.Repo.Migrations.CreateCampus do
 
       timestamps()
     end
+
+    create(unique_index(:campus, [:name]))
   end
 end
