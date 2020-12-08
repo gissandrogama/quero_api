@@ -3,7 +3,6 @@ defmodule QueroApiWeb.CourseView do
   alias QueroApiWeb.CourseView
 
   def render("index.json", %{courses: courses}) do
-    IO.inspect(courses)
     %{data: render_many(courses, CourseView, "course.json")}
   end
 
@@ -12,14 +11,24 @@ defmodule QueroApiWeb.CourseView do
   end
 
   def render("course.json", %{course: course}) do
-    IO.inspect(course)
+    course = Enum.into(course, %{})
 
     %{
-      id: course.id,
-      name: course.name,
-      kind: course.kind,
-      level: course.level,
-      shift: course.shift
+      course: %{
+        name: course.course.name,
+        kind: course.course.kind,
+        level: course.course.level,
+        shift: course.course.shift,
+        university: %{
+          name: course.university.name,
+          score: course.university.score,
+          logo_url: course.university.logo_url
+        },
+        campus: %{
+          name: course.campus.name,
+          city: course.campus.city
+        }
+      }
     }
   end
 end

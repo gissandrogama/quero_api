@@ -18,7 +18,21 @@ defmodule QueroApi.Courses do
 
   """
   def list_courses do
-    Repo.all(Course)
+    query =
+      from cs in QueroApi.Courses.Course,
+        join: cc in QueroApi.CampusCourses.CampusCourse,
+        on: cs.id == cc.course_id
+
+    query = from [cs, cc] in query, join: ca in QueroApi.Campus.Campu, on: ca.id == cc.campu_id
+
+    query =
+      from [cs, cc, ca] in query,
+        join: u in QueroApi.Universities.University,
+        on: ca.university_id == u.id
+
+    query = from [cs, cc, ca, u] in query, select: [course: cs, campus: ca, university: u]
+
+    Repo.all(query)
   end
 
   @doc """

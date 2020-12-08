@@ -293,6 +293,6 @@ course_offers =
 
  query = from [cs, cc, ca] in query, join: u in QueroApi.Universities.University, on: ca.university_id == u.id
 
- query = from [cs, cc, ca, u] in query, select: %{course: cs, campu: ca, university: u}
+ query = from [cs, cc, ca, u] in query
 
  QueroApi.Repo.all(query)

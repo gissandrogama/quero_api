@@ -11,8 +11,10 @@ defmodule QueroApiWeb.CampuView do
   end
 
   def render("campu.json", %{campu: campu}) do
-    %{id: campu.id,
+    %{
+      id: campu.id,
       name: campu.name,
-      city: campu.city}
+      city: campu.city
+    }
   end
 end
