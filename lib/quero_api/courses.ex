@@ -9,15 +9,28 @@ defmodule QueroApi.Courses do
   alias QueroApi.Courses.Course
 
   @doc """
-  Returns the list of lists of courses, campus and universities.
+  Returns the list of courses.
 
   ## Examples
 
       iex> list_courses()
-      [[course: %Course{}, campus: %Campu{}, university: %University{}], ...]
+      [%Campu{}, ...]
 
   """
   def list_courses do
+    Repo.all(Course)
+  end
+
+  @doc """
+  Returns the list of lists of courses, campus and universities.
+
+  ## Examples
+
+      iex> list_all_in_courses()
+      [[course: %Course{}, campus: %Campu{}, university: %University{}], ...]
+
+  """
+  def list_all_in_courses(discretion) when is_list(discretion) do
     query =
       from cs in QueroApi.Courses.Course,
         left_join: ccs in QueroApi.CampusCourses.CampusCourse,
@@ -29,10 +42,44 @@ defmodule QueroApi.Courses do
 
     query =
       from [cs, ccs, c, u] in query,
-        select:
-          [course: cs, campus: c, university: u]
+        select: [course: cs, campus: c, university: u]
 
-    Repo.all(query)
+    Enum.reduce(discretion, query, fn
+      {:kind, ""}, query ->
+        query
+
+      {:kind, kind}, query ->
+        from q in query, where: like(q.kind, ^kind)
+
+      {:level, ""}, query ->
+        query
+
+      {:level, level}, query ->
+        from q in query, where: like(q.level, ^level)
+
+      {:university, ""}, query ->
+        query
+
+      {:university, university}, query ->
+        from q in query, where: like(q.university, ^university)
+
+      {:shift, ""}, query ->
+        query
+
+      {:shift, shift}, query ->
+        from q in query, where: like(q.shift, ^shift)
+        #   from q in query, where: q.kind == ^kind
+
+        # {:kind, kind, :level, level, :university, "", :shift, ""}, query ->
+        #    from q in query, where: q.kind == ^kind and q.level == ^level
+
+        # {:prices, [""]}, query ->
+        #   query
+
+        # {:prices, prices}, query ->
+        #   from q in query, where: q.price in ^prices
+    end)
+    |> Repo.all()
   end
 
   @doc """
