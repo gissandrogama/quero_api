@@ -12,7 +12,8 @@ defmodule QueroApiWeb.CampusCourseController do
   end
 
   def create(conn, %{"campus_course" => campus_course_params}) do
-    with {:ok, %CampusCourse{} = campus_course} <- CampusCourses.create_campus_course(campus_course_params) do
+    with {:ok, %CampusCourse{} = campus_course} <-
+           CampusCourses.create_campus_course(campus_course_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.campus_course_path(conn, :show, campus_course))
@@ -28,7 +29,8 @@ defmodule QueroApiWeb.CampusCourseController do
   def update(conn, %{"id" => id, "campus_course" => campus_course_params}) do
     campus_course = CampusCourses.get_campus_course!(id)
 
-    with {:ok, %CampusCourse{} = campus_course} <- CampusCourses.update_campus_course(campus_course, campus_course_params) do
+    with {:ok, %CampusCourse{} = campus_course} <-
+           CampusCourses.update_campus_course(campus_course, campus_course_params) do
       render(conn, "show.json", campus_course: campus_course)
     end
   end

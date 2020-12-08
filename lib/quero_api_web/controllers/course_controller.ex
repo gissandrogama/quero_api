@@ -6,7 +6,7 @@ defmodule QueroApiWeb.CourseController do
 
   action_fallback QueroApiWeb.FallbackController
 
-  def index(conn, _params) do
+  def index(conn, params) do
     courses = Courses.list_courses()
     render(conn, "index.json", courses: courses)
   end

@@ -9,28 +9,28 @@ defmodule QueroApi.Courses do
   alias QueroApi.Courses.Course
 
   @doc """
-  Returns the list of courses.
+  Returns the list of lists of courses, campus and universities.
 
   ## Examples
 
       iex> list_courses()
-      [%Course{}, ...]
+      [[course: %Course{}, campus: %Campu{}, university: %University{}], ...]
 
   """
   def list_courses do
     query =
       from cs in QueroApi.Courses.Course,
-        join: cc in QueroApi.CampusCourses.CampusCourse,
-        on: cs.id == cc.course_id
-
-    query = from [cs, cc] in query, join: ca in QueroApi.Campus.Campu, on: ca.id == cc.campu_id
+        left_join: ccs in QueroApi.CampusCourses.CampusCourse,
+        on: cs.id == ccs.course_id,
+        left_join: c in QueroApi.Campus.Campu,
+        on: c.id == ccs.campu_id,
+        join: u in QueroApi.Universities.University,
+        on: u.id == c.university_id
 
     query =
-      from [cs, cc, ca] in query,
-        join: u in QueroApi.Universities.University,
-        on: ca.university_id == u.id
-
-    query = from [cs, cc, ca, u] in query, select: [course: cs, campus: ca, university: u]
+      from [cs, ccs, c, u] in query,
+        select:
+          [course: cs, campus: c, university: u]
 
     Repo.all(query)
   end
