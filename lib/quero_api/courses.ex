@@ -61,7 +61,7 @@ defmodule QueroApi.Courses do
         query
 
       {:university, university}, query ->
-        from q in query, where: like(q.university, ^university)
+        from [cs, ccs, c, u] in query, where: like(u.name, ^university)
 
       {:shift, ""}, query ->
         query
