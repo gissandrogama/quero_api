@@ -6,8 +6,9 @@ defmodule QueroApiWeb.OfferController do
 
   action_fallback QueroApiWeb.FallbackController
 
-  def index(conn, _params) do
-    offers = Offers.list_offers()
+  def index(conn, %{"city" => city, "course" => course, "kind" => kind, "level" => level, "shift" => shift, "university" => university, "prices" => prices}) do
+    params = [kind: kind, level: level, university: university, shift: shift, course: course, city: city, prices: prices]
+    offers = Offers.list_all_in_offers(params)
     render(conn, "index.json", offers: offers)
   end
 

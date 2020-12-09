@@ -14,7 +14,7 @@ defmodule QueroApi.Courses do
   ## Examples
 
       iex> list_courses()
-      [%Campu{}, ...]
+      [%Course{}, ...]
 
   """
   def list_courses do
@@ -49,25 +49,25 @@ defmodule QueroApi.Courses do
         query
 
       {:kind, kind}, query ->
-        from q in query, where: like(q.kind, ^kind)
+        from q in query, where: ilike(q.kind, ^kind)
 
       {:level, ""}, query ->
         query
 
       {:level, level}, query ->
-        from q in query, where: like(q.level, ^level)
+        from q in query, where: ilike(q.level, ^level)
 
       {:university, ""}, query ->
         query
 
       {:university, university}, query ->
-        from [cs, ccs, c, u] in query, where: like(u.name, ^university)
+        from [cs, ccs, c, u] in query, where: ilike(u.name, ^university)
 
       {:shift, ""}, query ->
         query
 
       {:shift, shift}, query ->
-        from q in query, where: like(q.shift, ^shift)
+        from q in query, where: ilike(q.shift, ^shift)
         #   from q in query, where: q.kind == ^kind
 
         # {:kind, kind, :level, level, :university, "", :shift, ""}, query ->
