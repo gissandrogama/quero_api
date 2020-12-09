@@ -1,5 +1,5 @@
 defmodule QueroApi.CampusTest do
-  use QueroApi.DataCase
+  use QueroApi.DataCase, async: true
 
   alias QueroApi.Campus
 
@@ -40,16 +40,16 @@ defmodule QueroApi.CampusTest do
     end
 
     test "update_campu/2 with valid data updates the campu" do
-      campu = campu_fixture()
+      campu = campu_fixture() |> QueroApi.Repo.preload(:courses)
       assert {:ok, %Campu{} = campu} = Campus.update_campu(campu, @update_attrs)
       assert campu.city == "some updated city"
       assert campu.name == "some updated name"
     end
 
     test "update_campu/2 with invalid data returns error changeset" do
-      campu = campu_fixture()
-      assert {:error, %Ecto.Changeset{}} = Campus.update_campu(campu, @invalid_attrs)
-      assert campu == Campus.get_campu!(campu.id)
+      campu = campu_fixture() |> QueroApi.Repo.preload(:courses)
+      assert {:error, %Ecto.Changeset{}}  = Campus.update_campu(campu, @invalid_attrs)
+      assert campu == Campus.get_campu!(campu.id) |> QueroApi.Repo.preload(:courses)
     end
 
     test "delete_campu/1 deletes the campu" do
@@ -59,7 +59,7 @@ defmodule QueroApi.CampusTest do
     end
 
     test "change_campu/1 returns a campu changeset" do
-      campu = campu_fixture()
+      campu = campu_fixture() |> QueroApi.Repo.preload(:courses)
       assert %Ecto.Changeset{} = Campus.change_campu(campu)
     end
   end

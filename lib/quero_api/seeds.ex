@@ -4,6 +4,7 @@ defmodule QueroApi.Seeds do
   mapeia das associações de relações do banco de dados.
   """
 
+
   @spec university(String) :: [map()]
   def university(name) do
     insert_courses()
@@ -59,7 +60,7 @@ defmodule QueroApi.Seeds do
          }}
       end)
       |> assoc_course_offer(courses)
-      |> Enum.map(fn offer -> QueroApi.Repo.update!(offer) end)
+      |> Enum.map(fn offer -> QueroApi.Repo.update(offer) end)
   end
 
   defp assoc_campus_course(courses_params, campus) do
@@ -89,7 +90,8 @@ defmodule QueroApi.Seeds do
   defp assoc_course_offer(offers_params, courses) do
     offers = QueroApi.Offers.list_offers()
 
-    courses = Enum.map(courses, fn campus -> campus.courses end) |> Enum.map(fn courses -> List.first(courses) end)
+    courses = Enum.map(courses, fn campus -> campus.courses end)
+    |> Enum.map(fn courses -> List.first(courses) end)
 
     course_offers =
       for {course, offer} <- offers_params,

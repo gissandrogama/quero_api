@@ -26,7 +26,7 @@ defmodule QueroApi.Courses do
 
   ## Examples
 
-      iex> list_all_in_courses()
+      iex> list_all_in_courses([kind: "presencial", level: "", university: "unip", shift: "noite"])
       [[course: %Course{}, campus: %Campu{}, university: %University{}], ...]
 
   """

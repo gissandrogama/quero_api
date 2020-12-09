@@ -52,7 +52,7 @@ defmodule QueroApi.Campus do
   def create_campu(attrs \\ %{}) do
     %Campu{}
     |> Campu.changeset(attrs)
-    |> Repo.insert!()
+    |> Repo.insert()
   end
 
   @doc """
