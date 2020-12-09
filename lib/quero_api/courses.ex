@@ -68,16 +68,6 @@ defmodule QueroApi.Courses do
 
       {:shift, shift}, query ->
         from q in query, where: ilike(q.shift, ^shift)
-        #   from q in query, where: q.kind == ^kind
-
-        # {:kind, kind, :level, level, :university, "", :shift, ""}, query ->
-        #    from q in query, where: q.kind == ^kind and q.level == ^level
-
-        # {:prices, [""]}, query ->
-        #   query
-
-        # {:prices, prices}, query ->
-        #   from q in query, where: q.price in ^prices
     end)
     |> Repo.all()
   end
