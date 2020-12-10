@@ -16,6 +16,9 @@ defmodule QueroApi.Seeds do
     |> insert_courses_offers(name)
   end
 
+  @doc """
+  função que ler o arquivo json 
+  """
   @spec db_json :: [map()]
   def db_json do
     File.read!("./priv/repo/db.json") |> Jason.decode!()

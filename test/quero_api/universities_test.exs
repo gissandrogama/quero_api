@@ -1,5 +1,7 @@
 defmodule QueroApi.UniversitiesTest do
-  use QueroApi.DataCase
+  use QueroApi.DataCase, async: true
+
+  import QueroApi.FixturesAll
 
   alias QueroApi.Universities
 
@@ -9,15 +11,6 @@ defmodule QueroApi.UniversitiesTest do
     @valid_attrs %{logo_url: "some logo_url", name: "some name", score: 120.5}
     @update_attrs %{logo_url: "some updated logo_url", name: "some updated name", score: 456.7}
     @invalid_attrs %{logo_url: nil, name: nil, score: nil}
-
-    def university_fixture(attrs \\ %{}) do
-      {:ok, university} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Universities.create_university()
-
-      university
-    end
 
     test "list_universities/0 returns all universities" do
       university = university_fixture()

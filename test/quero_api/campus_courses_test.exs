@@ -1,23 +1,31 @@
 defmodule QueroApi.CampusCoursesTest do
   use QueroApi.DataCase
 
+  import QueroApi.FixturesAll
+
   alias QueroApi.CampusCourses
 
   describe "campus_courses" do
     alias QueroApi.CampusCourses.CampusCourse
 
+    setup do
+      course = courses_fixture()
+      {:ok, course: course}
+    end
+
+    setup do
+      campu = campus_fixture()
+      {:ok, campu: campu}
+    end
+
+    setup do
+      campu_course = campus_courses_fixture()
+      {:ok, campu_course: campu_course}
+    end
+
     @valid_attrs %{}
     @update_attrs %{}
-    @invalid_attrs %{}
-
-    def campus_course_fixture(attrs \\ %{}) do
-      {:ok, campus_course} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> CampusCourses.create_campus_course()
-
-      campus_course
-    end
+    @invalid_attrs %{campu_id: nil, course_id: nil}
 
     test "list_campus_courses/0 returns all campus_courses" do
       campus_course = campus_course_fixture()
