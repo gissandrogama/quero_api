@@ -6,7 +6,7 @@ defmodule QueroApi.FixturesAll do
 
   alias QueroApi.{Campus, Courses, Universities, Offers, CampusCourses, CoursesOffers}
 
-  def name_university, do: "University 1"
+  def name_university, do: "University 1-#{System.unique_integer()}"
   def score, do: 4.5
   def logo_url, do: "https://www.tryimg.com/u/2019/04/16/anhanguera.png"
 
@@ -29,7 +29,7 @@ defmodule QueroApi.FixturesAll do
   #   token
   # end
 
-  def name_campus, do: "some name"
+  def name_campus, do: "some name-#{System.unique_integer()}"
   def city, do: "some cyte"
   def university_id, do: university_fixture()
 

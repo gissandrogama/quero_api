@@ -52,7 +52,7 @@ defmodule QueroApi.CoursesOffersTest do
       assert {:error, %Ecto.Changeset{}} = CoursesOffers.create_courses_offer(@invalid_attrs)
     end
 
-    test "change_courses_offer/1 insert ids that do not exist in leather and/or campu" do
+    test "create_courses_offer/1 with invalid insert ids that do not exist in leather and/or campu" do
       assert {:error, %Ecto.Changeset{}} =
                CoursesOffers.create_courses_offer(%{course_id: "4500", offer_id: "3474"})
     end
