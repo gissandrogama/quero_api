@@ -1,27 +1,31 @@
 defmodule QueroApi.AccountsTest do
-  use QueroApi.DataCase
+  use QueroApi.DataCase, async: true
+
+  import QueroApi.FixturesAll
 
   alias QueroApi.Accounts
 
   describe "users" do
     alias QueroApi.Accounts.User
 
-    @valid_attrs %{email: "someemail@email.com", password: "some password", password_confirmation: "some password"}
-    @update_attrs %{email: "someemailupdate@email.com", password: "some password update", password_confirmation: "some password update"}
+    @valid_attrs %{
+      email: "someemail@email.com",
+      password: "some password",
+      password_confirmation: "some password"
+    }
+    @update_attrs %{
+      email: "someemailupdate@email.com",
+      password: "some password update",
+      password_confirmation: "some password update"
+    }
     @invalid_attrs %{email: nil, password_hash: nil}
-
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Accounts.create_user()
-
-      user
-    end
 
     test "list_users/0 returns all users" do
       user = user_fixture()
-      user_get = Accounts.list_users() |> Enum.map(fn users -> {users.email, users.password_hash} end)
+
+      user_get =
+        Accounts.list_users() |> Enum.map(fn users -> {users.email, users.password_hash} end)
+
       assert user_get == [{user.email, user.password_hash}]
     end
 
@@ -67,5 +71,22 @@ defmodule QueroApi.AccountsTest do
       user = user_fixture()
       assert %Ecto.Changeset{} = Accounts.change_user(user)
     end
+
+    test "authenticate_user/2 returns ok when email and password match" do
+      user_fixture(%{email: "henry@henry.com"})
+      assert {:ok, %User{}} = Accounts.authenticate_user("henry@henry.com", "123456")
+    end
+
+    test "authenticate_user/2 returns error when there is no user with this email" do
+      user_fixture(%{email: "henry@henry.com"})
+      assert {:error, :invalid_credentials} = Accounts.authenticate_user("henry2@henry.com", "123456")
+    end
+
+    test "authenticate_user/2 returns error when the password is invalid" do
+      user_fixture(%{email: "henry@henry.com"})
+      assert {:error, :invalid_credentials} = Accounts.authenticate_user("henry@henry.com", "1234568")
+    end
   end
+
+
 end

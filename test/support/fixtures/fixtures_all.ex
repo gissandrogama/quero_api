@@ -4,7 +4,24 @@ defmodule QueroApi.FixturesAll do
   offers, campus_offers and courses_offers contexts.
   """
 
-  alias QueroApi.{Campus, CampusCourses, Courses, CoursesOffers, Offers, Universities}
+  alias QueroApi.{Accounts, Campus, CampusCourses, Courses, CoursesOffers, Offers, Universities}
+
+  def email, do: "email-#{System.unique_integer()}@email.com"
+  def password, do: "123456"
+  def password_confirmation, do: "123456"
+
+  def user_fixture(attrs \\ %{}) do
+    {:ok, user} =
+      attrs
+      |> Enum.into(%{
+        email: email(),
+        password: password(),
+        password_confirmation: password_confirmation()
+      })
+      |> Accounts.create_user()
+
+    user
+  end
 
   def name_university, do: "University 1-#{System.unique_integer()}"
 

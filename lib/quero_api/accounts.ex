@@ -101,4 +101,34 @@ defmodule QueroApi.Accounts do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  @doc """
+  Authentication de users, function receives an email and
+  password and verify that it exists in the database .
+
+  ## Examples
+
+      iex> authenticate_user("user@user.com", "password")
+      {:ok, %User{}}
+
+      iex> authenticate_user("user@user.com", "password1")
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def authenticate_user(email, password) do
+    query = from u in User, where: u.email == ^email
+
+    case Repo.one(query) do
+      nil ->
+        Argon2.no_user_verify()
+        {:error, :invalid_credentials}
+
+      user ->
+        if Argon2.verify_pass(password, user.password_hash) do
+          {:ok, user}
+        else
+          {:error, :invalid_credentials}
+        end
+    end
+  end
 end
