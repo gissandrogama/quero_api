@@ -2,8 +2,10 @@ defmodule QueroApi.Courses.Course do
   @moduledoc """
   this is a schema **courses** module with the function to verify data integrity
   """
+
   use Ecto.Schema
   import Ecto.Changeset
+  @derive {Jason.Encoder, only: [:kind, :level, :name, :shift]}
 
   alias QueroApi.{Campus, CampusCourses, CoursesOffers}
   alias QueroApi.Offers.Offer

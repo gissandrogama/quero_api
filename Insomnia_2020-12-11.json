@@ -1,0 +1,185 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2020-12-11T13:31:41.118Z",
+  "__export_source": "insomnia.desktop.app:v2020.5.1",
+  "resources": [
+    {
+      "_id": "req_0405570a69d743f2acb1cede20c5bcaf",
+      "parentId": "wrk_445818338c674ec9a9dc134d488d9bb3",
+      "modified": 1607624087704,
+      "created": 1607482260761,
+      "url": "{{ host }}/offers",
+      "name": "list_offers",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "university",
+          "value": "anhanguera",
+          "description": "",
+          "id": "pair_2e3827c88855474a84debc8f51a2f8fe"
+        },
+        {
+          "name": "course",
+          "value": "",
+          "description": "",
+          "id": "pair_75af2ee55a364de98217eba0ac350e6d"
+        },
+        {
+          "name": "kind",
+          "value": "",
+          "description": "",
+          "id": "pair_dd154a806dea47058a1053e6d711b6a5"
+        },
+        {
+          "name": "level",
+          "value": "",
+          "description": "",
+          "id": "pair_ee578c3d56514085af64b00ef879a14d"
+        },
+        {
+          "name": "shift",
+          "value": "",
+          "description": "",
+          "id": "pair_4dbd31d1c9a4455ea91f9042d9557981"
+        },
+        {
+          "name": "city",
+          "value": "",
+          "description": "",
+          "id": "pair_4f7eb96dfa3e4789b413e1a0115c161b"
+        },
+        {
+          "name": "prices",
+          "value": "maior",
+          "description": "",
+          "id": "pair_8ac84a8f341b495390fe053654cd9173"
+        }
+      ],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1607482260761,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_445818338c674ec9a9dc134d488d9bb3",
+      "parentId": null,
+      "modified": 1606436198677,
+      "created": 1606436198677,
+      "name": "Quero_api",
+      "description": "",
+      "scope": null,
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_dcaf04a5551943d5b106332f440f3a81",
+      "parentId": "wrk_445818338c674ec9a9dc134d488d9bb3",
+      "modified": 1607543636626,
+      "created": 1606436356256,
+      "url": "{{ host }}/courses",
+      "name": "list_course",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "name": "university",
+          "value": "unicsul",
+          "description": "",
+          "id": "pair_3a18b7d478264d2fadc6879795255bac"
+        },
+        {
+          "name": "kind",
+          "value": "",
+          "description": "",
+          "id": "pair_f54e8285107d401b8d0a8da0f049570b"
+        },
+        {
+          "name": "level",
+          "value": "",
+          "description": "",
+          "id": "pair_b6174457f88c4923bf6322b298df132f"
+        },
+        {
+          "name": "shift",
+          "value": "virtual",
+          "description": "",
+          "id": "pair_b4a9996764ed4e7fafa314ca47684312",
+          "type": "text",
+          "multiline": false
+        }
+      ],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1606436356256,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "env_aaad81c15ae6f21f77043024716e08ba5571ceef",
+      "parentId": "wrk_445818338c674ec9a9dc134d488d9bb3",
+      "modified": 1606436199040,
+      "created": 1606436199040,
+      "name": "Base Environment",
+      "data": {},
+      "dataPropertyOrder": null,
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1606436199041,
+      "_type": "environment"
+    },
+    {
+      "_id": "jar_aaad81c15ae6f21f77043024716e08ba5571ceef",
+      "parentId": "wrk_445818338c674ec9a9dc134d488d9bb3",
+      "modified": 1606436199043,
+      "created": 1606436199043,
+      "name": "Default Jar",
+      "cookies": [],
+      "_type": "cookie_jar"
+    },
+    {
+      "_id": "spc_6d057f39e15b47ca91abf3689f3e987d",
+      "parentId": "wrk_445818338c674ec9a9dc134d488d9bb3",
+      "modified": 1606436198693,
+      "created": 1606436198693,
+      "fileName": "Quero_api",
+      "contents": "",
+      "contentType": "yaml",
+      "_type": "api_spec"
+    },
+    {
+      "_id": "env_9f50de8e64f74a388dc8119c5c4440b4",
+      "parentId": "env_aaad81c15ae6f21f77043024716e08ba5571ceef",
+      "modified": 1606436522583,
+      "created": 1606436304121,
+      "name": "dev",
+      "data": {
+        "host": "http://localhost:4000/api"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "host"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1606436304121,
+      "_type": "environment"
+    }
+  ]
+}

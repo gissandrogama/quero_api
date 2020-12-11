@@ -1,19 +1,105 @@
+![logo-quero-edu-small](https://user-images.githubusercontent.com/1139813/90247813-c9cfc780-de0d-11ea-9a97-485a7212d9dd.png)
+
 # QueroApi
 
-To start your Phoenix server:
+Desafio **bac-kend** que o objetivo é criar uma API para exibição e filtragem de ofertas de curso.
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.setup`
-  * Start Phoenix endpoint with `mix phx.server`
+# Informacoes Tecnicas
+* Ecossistema Elixir
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+## Iniciando a api localmente
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+**1.** Clone o projeto:
 
-## Learn more
+ * ssh
+```sh
+$ git clone git@github.com:gissandrogama/quero_api.git
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+ * https
+```sh
+$ git clone https://github.com/gissandrogama/quero_api.git
+```
+
+**2.** Acesse a pasta do projeto:
+
+```sh
+$ cd quero_api
+```
+
+**3.** Instale as dependências:
+
+```$ mix deps.get```
+
+**4.** criar e migrar o banco de dados, e inserir dados do db.json:
+
+```$ mix ecto.setup```
+
+**5.** inicie o endpoit phoenix com:
+
+```$ mix phx.sever```
+
+# Sobre API
+
+Como foi requisitado nos especificações das funcionalidades do teste, a api possui dois endpoints um para listar **cursos** e outro para listar **ofertas**, como mostra a tabela a seguir:
+
+endpoint   | parametros de filtros | valores que podem ser passados para os parametros
+--------- | ----------------------- | --------------
+/api/courses | kind, level, shift e univerisity | kind(presencial, ead, ...), level(bacharelado, licenciatura, ...), shitf(manhã, noite, ...) e university(Estácio, ..)
+/api/offers | city, course, kind, level, shift,university, prices | kind(presencial, ead, ...), level(bacharelado, licenciatura, ...), shitf(manhã, noite, ...), university(Estácio, ..), city(São Paulo, ...), course(Sistema de informação, ...), prices(maior ou menor)
+
+obs.: prices oderna os dados de forma crescente(menor) ou decrescente(maior) de acordo o preço com desconto de ofertas.
+
+para fazer os teste ultilizei o insomnia, mas pode ser ultilizado outros programa como o postman.
+
+caso queira usar o insomnia, segue um arquivo já com as rotas para ultilizar o insomnia:
+[arquivo insomnia](./Insomnia_2020-12-11.json)
+
+# GET listar cursos projeto local
+
+## Sem passar nenhum parametro
+
+usando navedador
+```
+http://localhost:4000/api/courses?university&kind&level&shift
+```
+
+usando o terminal
+```sh
+$ curl --request GET \
+  --url 'http://localhost:4000/api/courses?university=&kind=&level=&shift='
+```
+recupera todos os cursos do banco de dados.
+
+
+## Passando um ou mais parametros
+
+usando navedador
+```
+http://localhost:4000/api/courses?university=unip&kind&level&shift
+```
+
+usando o terminal
+```sh
+$curl --request GET \
+  --url 'http://localhost:4000/api/courses?university=unicsul&kind=&level=virtual&shift='
+```
+na requisição acima ele recupera todos os cursos que tem relação com a **UNIP**.
+
+
+# GET listar ofertas projeto local
+
+## Sem passar nenhum parametro
+
+usando o navegador
+``
+http://localhost:4000/api/offers?university&course&kind&level&shift&city&prices
+```
+recupera todos as offertas do banco de dados.
+
+
+## Passando um ou mais parametros
+```
+http://localhost:4000/api/courses?university=unip&kind&level&shift=maior
+```
+na requisição acima ela recupera todos as ofertas que tem relação com a **UNIP** e ordena do mario valor com desconto para o menor.
