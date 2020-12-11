@@ -2,7 +2,7 @@ defmodule QueroApiWeb.CourseController do
   use QueroApiWeb, :controller
 
   alias QueroApi.Courses
-  alias QueroApi.Courses.Course
+  # alias QueroApi.Courses.Course
 
   action_fallback QueroApiWeb.FallbackController
 
