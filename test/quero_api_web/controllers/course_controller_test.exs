@@ -1,100 +1,269 @@
 defmodule QueroApiWeb.CourseControllerTest do
-  use QueroApiWeb.ConnCase
+  use QueroApiWeb.ConnCase, async: true
 
-  # alias QueroApi.Courses
-  # alias QueroApi.Courses.Course
-
-  # @create_attrs %{
-  #   kind: "some kind",
-  #   level: "some level",
-  #   name: "some name",
-  #   shift: "some shift"
-  # }
-  # @update_attrs %{
-  #   kind: "some updated kind",
-  #   level: "some updated level",
-  #   name: "some updated name",
-  #   shift: "some updated shift"
-  # }
-  # @invalid_attrs %{kind: nil, level: nil, name: nil, shift: nil}
-
-  # def fixture(:course) do
-  #   {:ok, course} = Courses.create_course(@create_attrs)
-  #   course
-  # end
+  import QueroApi.FixturesAll
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
   describe "index" do
+    test "returns 200 with a list of courses", %{conn: conn} do
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "",
+          "level" => "",
+          "university" => "",
+          "shift" => ""
+        })
+
+      assert json_response(conn, 200)["data"] == []
+    end
+
     test "lists all courses", %{conn: conn} do
-      conn = get(conn, Routes.course_path(conn, :index), %{"kind" => "", "level" => "", "university" => "", "shift" => ""})
+      university = university_fixture()
+
+      course = courses_fixture()
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "",
+          "level" => "",
+          "university" => "",
+          "shift" => ""
+        })
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "course" => %{
+                   "campus" => %{"city" => campu.city, "name" => campu.name},
+                   "kind" => course.kind,
+                   "level" => course.level,
+                   "name" => course.name,
+                   "shift" => course.shift,
+                   "university" => %{
+                     "logo_url" => university.logo_url,
+                     "name" => university.name,
+                     "score" => university.score
+                   }
+                 }
+               }
+             ]
+    end
+
+    test "list courses by university name", %{conn: conn} do
+      university = university_fixture(%{name: "UFRA"})
+
+      course = courses_fixture()
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "",
+          "level" => "",
+          "university" => "UFRA",
+          "shift" => ""
+        })
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "course" => %{
+                   "campus" => %{"city" => campu.city, "name" => campu.name},
+                   "kind" => course.kind,
+                   "level" => course.level,
+                   "name" => course.name,
+                   "shift" => course.shift,
+                   "university" => %{
+                     "logo_url" => university.logo_url,
+                     "name" => university.name,
+                     "score" => university.score
+                   }
+                 }
+               }
+             ]
+    end
+
+    test "list courses by kind", %{conn: conn} do
+      university = university_fixture()
+
+      course = courses_fixture(%{kind: "Presencial"})
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "Presencial",
+          "level" => "",
+          "university" => "",
+          "shift" => ""
+        })
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "course" => %{
+                   "campus" => %{"city" => campu.city, "name" => campu.name},
+                   "kind" => course.kind,
+                   "level" => course.level,
+                   "name" => course.name,
+                   "shift" => course.shift,
+                   "university" => %{
+                     "logo_url" => university.logo_url,
+                     "name" => university.name,
+                     "score" => university.score
+                   }
+                 }
+               }
+             ]
+    end
+
+    test "list courses by level", %{conn: conn} do
+      university = university_fixture()
+
+      course = courses_fixture(%{level: "Bacharelado"})
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "",
+          "level" => "Bacharelado",
+          "university" => "",
+          "shift" => ""
+        })
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "course" => %{
+                   "campus" => %{"city" => campu.city, "name" => campu.name},
+                   "kind" => course.kind,
+                   "level" => course.level,
+                   "name" => course.name,
+                   "shift" => course.shift,
+                   "university" => %{
+                     "logo_url" => university.logo_url,
+                     "name" => university.name,
+                     "score" => university.score
+                   }
+                 }
+               }
+             ]
+    end
+
+    test "list courses by shift", %{conn: conn} do
+      university = university_fixture()
+
+      course = courses_fixture(%{shift: "Noite"})
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      university2 = university_fixture()
+
+      course2 = courses_fixture(%{shift: "Manhã"})
+
+      campu2 = campus_fixture(%{university_id: university2.id})
+
+      campus_courses_fixture(%{course_id: course2.id, campu_id: campu2.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "",
+          "level" => "",
+          "university" => "",
+          "shift" => "Noite"
+        })
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "course" => %{
+                   "campus" => %{"city" => campu.city, "name" => campu.name},
+                   "kind" => course.kind,
+                   "level" => course.level,
+                   "name" => course.name,
+                   "shift" => course.shift,
+                   "university" => %{
+                     "logo_url" => university.logo_url,
+                     "name" => university.name,
+                     "score" => university.score
+                   }
+                 }
+               }
+             ]
+    end
+
+    test "list courses by all parameters", %{conn: conn} do
+      university = university_fixture(%{name: "UFPA"})
+
+      course = courses_fixture(%{kind: "Presencial", level: "Bacharelado", shift: "Manhã"})
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      university2 = university_fixture(%{name: "UFRA"})
+
+      course2 = courses_fixture(%{kind: "Presencial", level: "Bacharelado", shift: "Noite"})
+
+      campu2 = campus_fixture(%{university_id: university2.id})
+
+      campus_courses_fixture(%{course_id: course2.id, campu_id: campu2.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "Presencial",
+          "level" => "Bacharelado",
+          "university" => "UFPA",
+          "shift" => "Manhã"
+        })
+
+      assert json_response(conn, 200)["data"] == [
+               %{
+                 "course" => %{
+                   "campus" => %{"city" => campu.city, "name" => campu.name},
+                   "kind" => course.kind,
+                   "level" => course.level,
+                   "name" => course.name,
+                   "shift" => course.shift,
+                   "university" => %{
+                     "logo_url" => university.logo_url,
+                     "name" => university.name,
+                     "score" => university.score
+                   }
+                 }
+               }
+             ]
+    end
+
+    test "passing parameters that don't exist in the bank", %{conn: conn} do
+      university = university_fixture()
+
+      course = courses_fixture()
+
+      campu = campus_fixture(%{university_id: university.id})
+
+      campus_courses_fixture(%{course_id: course.id, campu_id: campu.id})
+
+      conn =
+        get(conn, Routes.course_path(conn, :index), %{
+          "kind" => "Presencial",
+          "level" => "Bacharelado",
+          "university" => "UFPA",
+          "shift" => "Manhã"
+        })
+
       assert json_response(conn, 200)["data"] == []
     end
   end
-
-  # describe "create course" do
-  #   test "renders course when data is valid", %{conn: conn} do
-  #     conn = post(conn, Routes.course_path(conn, :create), course: @create_attrs)
-  #     assert %{"id" => id} = json_response(conn, 201)["data"]
-
-  #     conn = get(conn, Routes.course_path(conn, :show, id))
-
-  #     assert %{
-  #              "id" => id,
-  #              "kind" => "some kind",
-  #              "level" => "some level",
-  #              "name" => "some name",
-  #              "shift" => "some shift"
-  #            } = json_response(conn, 200)["data"]
-  #   end
-
-  #   test "renders errors when data is invalid", %{conn: conn} do
-  #     conn = post(conn, Routes.course_path(conn, :create), course: @invalid_attrs)
-  #     assert json_response(conn, 422)["errors"] != %{}
-  #   end
-  # end
-
-  # describe "update course" do
-  #   setup [:create_course]
-
-  #   test "renders course when data is valid", %{conn: conn, course: %Course{id: id} = course} do
-  #     conn = put(conn, Routes.course_path(conn, :update, course), course: @update_attrs)
-  #     assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
-  #     conn = get(conn, Routes.course_path(conn, :show, id))
-
-  #     assert %{
-  #              "id" => id,
-  #              "kind" => "some updated kind",
-  #              "level" => "some updated level",
-  #              "name" => "some updated name",
-  #              "shift" => "some updated shift"
-  #            } = json_response(conn, 200)["data"]
-  #   end
-
-  #   test "renders errors when data is invalid", %{conn: conn, course: course} do
-  #     conn = put(conn, Routes.course_path(conn, :update, course), course: @invalid_attrs)
-  #     assert json_response(conn, 422)["errors"] != %{}
-  #   end
-  # end
-
-  # describe "delete course" do
-  #   setup [:create_course]
-
-  #   test "deletes chosen course", %{conn: conn, course: course} do
-  #     conn = delete(conn, Routes.course_path(conn, :delete, course))
-  #     assert response(conn, 204)
-
-  #     assert_error_sent 404, fn ->
-  #       get(conn, Routes.course_path(conn, :show, course))
-  #     end
-  #   end
-  # end
-
-  # defp create_course(_) do
-  #   course = fixture(:course)
-  #   %{course: course}
-  # end
 end

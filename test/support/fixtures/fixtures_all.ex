@@ -6,7 +6,10 @@ defmodule QueroApi.FixturesAll do
 
   alias QueroApi.{Campus, Courses, Universities, Offers, CampusCourses, CoursesOffers}
 
+
+  # def name_university(name), do: name
   def name_university, do: "University 1-#{System.unique_integer()}"
+
   def score, do: 4.5
   def logo_url, do: "https://www.tryimg.com/u/2019/04/16/anhanguera.png"
 
@@ -29,6 +32,7 @@ defmodule QueroApi.FixturesAll do
   #   token
   # end
 
+  # def name_campus(name), do: name
   def name_campus, do: "some name-#{System.unique_integer()}"
   def city, do: "some cyte"
   def university_id, do: university_fixture()
@@ -64,6 +68,7 @@ defmodule QueroApi.FixturesAll do
 
   def kind, do: "some kind"
   def level, do: "some level"
+  # def name_course(name), do: name
   def name_course, do: "some name-#{System.unique_integer()}"
   def shift, do: "some shift"
 
@@ -101,6 +106,7 @@ defmodule QueroApi.FixturesAll do
   def enrollment_semester, do: "some enrollment_semester"
   def full_price, do: 120.5
   def price_with_discount, do: 80.9
+  # def start_date(start_date), do: start_date
   def start_date, do: "some start_date-#{System.unique_integer()}"
 
   def offers_fixture(attrs \\ %{}) do
