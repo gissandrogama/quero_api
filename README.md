@@ -81,8 +81,8 @@ http://localhost:4000/api/courses?university=unip&kind&level&shift
 
 usando o terminal
 ```sh
-$curl --request GET \
-  --url 'http://localhost:4000/api/courses?university=unicsul&kind=&level=virtual&shift='
+$ curl --request GET \
+  --url 'http://localhost:4000/api/courses?university=unip&kind=&level=&shift='
 ```
 na requisição acima ele recupera todos os cursos que tem relação com a **UNIP**.
 
@@ -92,14 +92,30 @@ na requisição acima ele recupera todos os cursos que tem relação com a **UNI
 ## Sem passar nenhum parametro
 
 usando o navegador
-``
+```
 http://localhost:4000/api/offers?university&course&kind&level&shift&city&prices
+```
+
+usando o terminal
+
+```sh
+$ curl --request GET \
+  --url 'http://localhost:4000/api/offers?university=&course=&kind=&level=&shift=&city=&prices='
+
 ```
 recupera todos as offertas do banco de dados.
 
 
 ## Passando um ou mais parametros
+
+usando o navegador
 ```
-http://localhost:4000/api/courses?university=unip&kind&level&shift=maior
+http://localhost:4000/api/offers?university=unip&course&kind&level&shift&city&prices=maior
+```
+
+usando o terminal
+```sh
+$ curl --request GET \
+  --url 'http://localhost:4000/api/offers?university=unip&course=&kind=&level=&shift=&city=&prices=maior'
 ```
 na requisição acima ela recupera todos as ofertas que tem relação com a **UNIP** e ordena do mario valor com desconto para o menor.
