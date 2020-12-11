@@ -12,7 +12,8 @@ defmodule QueroApiWeb.CoursesOfferController do
   end
 
   def create(conn, %{"courses_offer" => courses_offer_params}) do
-    with {:ok, %CoursesOffer{} = courses_offer} <- CoursesOffers.create_courses_offer(courses_offer_params) do
+    with {:ok, %CoursesOffer{} = courses_offer} <-
+           CoursesOffers.create_courses_offer(courses_offer_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.courses_offer_path(conn, :show, courses_offer))
@@ -28,7 +29,8 @@ defmodule QueroApiWeb.CoursesOfferController do
   def update(conn, %{"id" => id, "courses_offer" => courses_offer_params}) do
     courses_offer = CoursesOffers.get_courses_offer!(id)
 
-    with {:ok, %CoursesOffer{} = courses_offer} <- CoursesOffers.update_courses_offer(courses_offer, courses_offer_params) do
+    with {:ok, %CoursesOffer{} = courses_offer} <-
+           CoursesOffers.update_courses_offer(courses_offer, courses_offer_params) do
       render(conn, "show.json", courses_offer: courses_offer)
     end
   end

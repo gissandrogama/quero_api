@@ -92,6 +92,7 @@ defmodule QueroApi.Offers do
         case prices do
           "maior" ->
             from q in query, order_by: [desc: q.price_with_discount]
+
           "menor" ->
             from q in query, order_by: [asc: q.price_with_discount]
         end

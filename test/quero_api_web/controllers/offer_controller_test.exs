@@ -464,7 +464,9 @@ defmodule QueroApiWeb.OfferControllerTest do
 
       university2 = university_fixture(%{name: "Estácio"})
       offer2 = offers_fixture(%{price_with_discount: "600.65"})
-      campu2 = campus_fixture(%{name: "Campus Belém", city: "Belém", university_id: university2.id})
+
+      campu2 =
+        campus_fixture(%{name: "Campus Belém", city: "Belém", university_id: university2.id})
 
       course2 =
         courses_fixture(%{

@@ -1,4 +1,7 @@
 defmodule QueroApi.Courses.Course do
+  @moduledoc """
+  this is a schema **courses** module with the function to verify data integrity
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -12,7 +15,10 @@ defmodule QueroApi.Courses.Course do
     field :shift, :string
 
     many_to_many :campus, Campus.Campu, join_through: CampusCourses.CampusCourse
-    many_to_many :offers, Offer, join_through: CoursesOffers.CoursesOffer, on_replace: :mark_as_invalid
+
+    many_to_many :offers, Offer,
+      join_through: CoursesOffers.CoursesOffer,
+      on_replace: :mark_as_invalid
 
     timestamps()
   end

@@ -5,7 +5,9 @@ defmodule QueroApi.Repo.Migrations.CreateCampus do
     create table(:campus) do
       add :name, :string
       add :city, :string
-      add :university_id, references(:universities, on_delete: :nilify_all, on_update: :nilify_all)
+
+      add :university_id,
+          references(:universities, on_delete: :nilify_all, on_update: :nilify_all)
 
       timestamps()
     end

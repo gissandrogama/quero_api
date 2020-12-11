@@ -1,13 +1,11 @@
 defmodule QueroApi.FixturesAll do
   @moduledoc """
-  This module defines test helpers for creating
-  entities via the `App.Accounts` context.
+  This module defines test helpers to create entities through campus, courses,
+  offers, campus_offers and courses_offers contexts.
   """
 
-  alias QueroApi.{Campus, Courses, Universities, Offers, CampusCourses, CoursesOffers}
+  alias QueroApi.{Campus, CampusCourses, Courses, CoursesOffers, Offers, Universities}
 
-
-  # def name_university(name), do: name
   def name_university, do: "University 1-#{System.unique_integer()}"
 
   def score, do: 4.5
@@ -32,7 +30,6 @@ defmodule QueroApi.FixturesAll do
   #   token
   # end
 
-  # def name_campus(name), do: name
   def name_campus, do: "some name-#{System.unique_integer()}"
   def city, do: "some cyte"
   def university_id, do: university_fixture()
@@ -49,7 +46,6 @@ defmodule QueroApi.FixturesAll do
 
     campus
   end
-
 
   def campu_course_id, do: campus_fixture()
   def course_campu_id, do: courses_fixture()

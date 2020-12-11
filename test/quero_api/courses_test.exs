@@ -9,9 +9,13 @@ defmodule QueroApi.CoursesTest do
     alias QueroApi.Courses.Course
 
     @valid_attrs %{kind: "some kind", level: "some level", name: "some name", shift: "some shift"}
-    @update_attrs %{kind: "some updated kind", level: "some updated level", name: "some updated name", shift: "some updated shift"}
+    @update_attrs %{
+      kind: "some updated kind",
+      level: "some updated level",
+      name: "some updated name",
+      shift: "some updated shift"
+    }
     @invalid_attrs %{kind: nil, level: nil, name: nil, shift: nil}
-
 
     test "list_courses/0 returns all courses" do
       course = courses_fixture()

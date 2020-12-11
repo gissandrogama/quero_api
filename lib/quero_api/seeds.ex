@@ -4,11 +4,11 @@ defmodule QueroApi.Seeds do
   mapeia das associações de relações do banco de dados.
   """
 
-
   @spec university(String) :: [map()]
   def university(name) do
     insert_courses()
     insert_offers()
+
     Enum.filter(db_json(), fn universities -> universities["university"]["name"] == name end)
     |> insert_university()
     |> insert_campus(name)
@@ -17,7 +17,7 @@ defmodule QueroApi.Seeds do
   end
 
   @doc """
-  função que ler o arquivo json 
+  função que ler o arquivo json
   """
   @spec db_json :: [map()]
   def db_json do
@@ -52,18 +52,18 @@ defmodule QueroApi.Seeds do
   def insert_courses_offers(courses, name) do
     Enum.filter(db_json(), fn campu -> campu["university"]["name"] == name end)
     |> Enum.map(fn courses_offers ->
-        {courses_offers["course"],
-         %{
-           "full_price" => courses_offers["full_price"],
-           "price_with_discount" => courses_offers["price_with_discount"],
-           "discount_percentage" => courses_offers["discount_percentage"],
-           "start_date" => courses_offers["start_date"],
-           "enrollment_semester" => courses_offers["enrollment_semester"],
-           "enabled" => courses_offers["enabled"]
-         }}
-      end)
-      |> assoc_course_offer(courses)
-      |> Enum.map(fn offer -> QueroApi.Repo.update(offer) end)
+      {courses_offers["course"],
+       %{
+         "full_price" => courses_offers["full_price"],
+         "price_with_discount" => courses_offers["price_with_discount"],
+         "discount_percentage" => courses_offers["discount_percentage"],
+         "start_date" => courses_offers["start_date"],
+         "enrollment_semester" => courses_offers["enrollment_semester"],
+         "enabled" => courses_offers["enabled"]
+       }}
+    end)
+    |> assoc_course_offer(courses)
+    |> Enum.map(fn offer -> QueroApi.Repo.update(offer) end)
   end
 
   defp assoc_campus_course(courses_params, campus) do
@@ -93,8 +93,9 @@ defmodule QueroApi.Seeds do
   defp assoc_course_offer(offers_params, courses) do
     offers = QueroApi.Offers.list_offers()
 
-    courses = Enum.map(courses, fn campus -> campus.courses end)
-    |> Enum.map(fn courses -> List.first(courses) end)
+    courses =
+      Enum.map(courses, fn campus -> campus.courses end)
+      |> Enum.map(fn courses -> List.first(courses) end)
 
     course_offers =
       for {course, offer} <- offers_params,
@@ -104,7 +105,6 @@ defmodule QueroApi.Seeds do
           course["level"] == courses_map.level,
           course["shift"] == courses_map.shift,
           do: {courses_map, offer}
-
 
     course_offers =
       for {course, offer} <- course_offers,

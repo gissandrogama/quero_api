@@ -1,4 +1,7 @@
 defmodule QueroApi.Universities.University do
+  @moduledoc """
+  this is a schema **universities** module with the function to verify data integrity
+  """
   use Ecto.Schema
   import Ecto.Changeset
 

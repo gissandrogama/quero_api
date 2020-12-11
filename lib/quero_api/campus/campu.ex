@@ -1,8 +1,11 @@
 defmodule QueroApi.Campus.Campu do
+  @moduledoc """
+  this is a schema **campus** module with the function to verify data integrity
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
-  alias QueroApi.{Universities, Courses, CampusCourses}
+  alias QueroApi.{CampusCourses, Courses, Universities}
 
   schema "campus" do
     field :city, :string
@@ -24,5 +27,4 @@ defmodule QueroApi.Campus.Campu do
     |> cast_assoc(:courses, with: &Courses.Course.changeset/2)
     |> validate_required([:name, :city, :courses])
   end
-
 end

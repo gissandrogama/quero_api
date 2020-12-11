@@ -1,4 +1,4 @@
-defmodule QueroApi.CourseViewTest do
+defmodule QueroApi.OfferViewTest do
   use QueroApi.DataCase, async: true
 
   import QueroApi.FixturesAll
@@ -33,17 +33,17 @@ defmodule QueroApi.CourseViewTest do
 
       campus_courses_fixture(%{campu_id: campu.id, course_id: course.id})
 
-      offers = [[offer, course: course, university: university, campus: campu]]
+      offers = [[offer: offer, course: course, university: university, campus: campu]]
 
       assert %{
                data: [
                  %{
-                  full_price: 1408.63,
-                  price_with_discount: 493.02,
-                  discount_percentage: 65.0,
-                  start_date: "01/02/2020",
-                  enrollment_semester: "2020.1",
-                  enabled: true,
+                   full_price: 1408.63,
+                   price_with_discount: 493.02,
+                   discount_percentage: 65.0,
+                   start_date: "01/02/2020",
+                   enrollment_semester: "2020.1",
+                   enabled: true,
                    course: %{
                      name: "Sistema de informação",
                      kind: "Presencial",
@@ -61,7 +61,7 @@ defmodule QueroApi.CourseViewTest do
                    }
                  }
                ]
-             } == OfferView.render("index.json", %{offers: offers})
+             } =~ OfferView.render("index.json", %{offers: offers})
     end
   end
 end

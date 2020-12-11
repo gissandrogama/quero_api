@@ -28,7 +28,8 @@ defmodule QueroApiWeb.UniversityController do
   def update(conn, %{"id" => id, "university" => university_params}) do
     university = Universities.get_university!(id)
 
-    with {:ok, %University{} = university} <- Universities.update_university(university, university_params) do
+    with {:ok, %University{} = university} <-
+           Universities.update_university(university, university_params) do
       render(conn, "show.json", university: university)
     end
   end

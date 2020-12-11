@@ -11,9 +11,11 @@ defmodule QueroApiWeb.UniversityView do
   end
 
   def render("university.json", %{university: university}) do
-    %{id: university.id,
+    %{
+      id: university.id,
       name: university.name,
       score: university.score,
-      logo_url: university.logo_url}
+      logo_url: university.logo_url
+    }
   end
 end

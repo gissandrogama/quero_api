@@ -41,7 +41,7 @@ defmodule QueroApi.CampusTest do
 
     test "update_campu/2 with invalid data returns error changeset" do
       campu = campus_fixture() |> QueroApi.Repo.preload(:courses)
-      assert {:error, %Ecto.Changeset{}}  = Campus.update_campu(campu, @invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} = Campus.update_campu(campu, @invalid_attrs)
       assert campu == Campus.get_campu!(campu.id) |> QueroApi.Repo.preload(:courses)
     end
 

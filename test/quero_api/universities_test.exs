@@ -35,16 +35,23 @@ defmodule QueroApi.UniversitiesTest do
 
     test "update_university/2 with valid data updates the university" do
       university = university_fixture() |> QueroApi.Repo.preload(:campus)
-      assert {:ok, %University{} = university} = Universities.update_university(university, @update_attrs)
+
+      assert {:ok, %University{} = university} =
+               Universities.update_university(university, @update_attrs)
+
       assert university.logo_url == "some updated logo_url"
       assert university.name == "some updated name"
       assert university.score == 456.7
     end
 
     test "update_university/2 with invalid data returns error changeset" do
-      university = university_fixture()  |> QueroApi.Repo.preload(:campus)
-      assert {:error, %Ecto.Changeset{}} = Universities.update_university(university, @invalid_attrs)
-      assert university == Universities.get_university!(university.id)  |> QueroApi.Repo.preload(:campus)
+      university = university_fixture() |> QueroApi.Repo.preload(:campus)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Universities.update_university(university, @invalid_attrs)
+
+      assert university ==
+               Universities.get_university!(university.id) |> QueroApi.Repo.preload(:campus)
     end
 
     test "delete_university/1 deletes the university" do
@@ -54,7 +61,7 @@ defmodule QueroApi.UniversitiesTest do
     end
 
     test "change_university/1 returns a university changeset" do
-      university = university_fixture()  |> QueroApi.Repo.preload(:campus)
+      university = university_fixture() |> QueroApi.Repo.preload(:campus)
       assert %Ecto.Changeset{} = Universities.change_university(university)
     end
   end

@@ -8,10 +8,30 @@ defmodule QueroApi.OffersTest do
   describe "offers" do
     alias QueroApi.Offers.Offer
 
-    @valid_attrs %{discount_percentage: 120.5, enabled: true, enrollment_semester: "some enrollment_semester", full_price: 120.5, price_with_discount: 120.5, start_date: "some start_date"}
-    @update_attrs %{discount_percentage: 456.7, enabled: false, enrollment_semester: "some updated enrollment_semester", full_price: 456.7, price_with_discount: 456.7, start_date: "some updated start_date"}
-    @invalid_attrs %{discount_percentage: nil, enabled: nil, enrollment_semester: nil, full_price: nil, price_with_discount: nil, start_date: nil}
-
+    @valid_attrs %{
+      discount_percentage: 120.5,
+      enabled: true,
+      enrollment_semester: "some enrollment_semester",
+      full_price: 120.5,
+      price_with_discount: 120.5,
+      start_date: "some start_date"
+    }
+    @update_attrs %{
+      discount_percentage: 456.7,
+      enabled: false,
+      enrollment_semester: "some updated enrollment_semester",
+      full_price: 456.7,
+      price_with_discount: 456.7,
+      start_date: "some updated start_date"
+    }
+    @invalid_attrs %{
+      discount_percentage: nil,
+      enabled: nil,
+      enrollment_semester: nil,
+      full_price: nil,
+      price_with_discount: nil,
+      start_date: nil
+    }
 
     test "list_offers/0 returns all offers" do
       offer = offers_fixture()
