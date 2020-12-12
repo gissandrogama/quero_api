@@ -79,16 +79,55 @@ defmodule QueroApiWeb.UserControllerTest do
     end
   end
 
-  # describe "delete user" do
-  #   setup [:create_user]
+  describe "user login" do
+    test "when email and password exists", %{conn: conn} do
+      user_fixture(%{email: "joao@email.com", password: "123456", password_confirmation: "123456"})
 
-  #   test "deletes chosen user", %{conn: conn, user: user} do
-  #     conn = delete(conn, Routes.user_path(conn, :delete, user))
-  #     assert response(conn, 204)
+      conn =
+        post(conn, Routes.user_path(conn, :sign_in), %{
+          email: "joao@email.com",
+          password: "123456"
+        })
 
-  #     assert_error_sent 404, fn ->
-  #       get(conn, Routes.user_path(conn, :show, user))
-  #     end
-  #   end
-  # end
+      assert %{
+               "email" => "joao@email.com"
+             } = json_response(conn, 200)["data"]
+    end
+
+    test "when the email is wrong or not a user does not exist", %{conn: conn} do
+      user_fixture(%{email: "joao@email.com", password: "123456", password_confirmation: "123456"})
+
+      conn =
+        post(conn, Routes.user_path(conn, :sign_in), %{
+          email: "joao2@email.com",
+          password: "123456"
+        })
+
+      assert %{"status" => "unautheticated"} = json_response(conn, 401)
+    end
+
+    test "when the password is wrong or not a user does not exist", %{conn: conn} do
+      user_fixture(%{email: "joao@email.com", password: "123456", password_confirmation: "123456"})
+
+      conn =
+        post(conn, Routes.user_path(conn, :sign_in), %{
+          email: "joao@email.com",
+          password: "12345687"
+        })
+
+      assert %{"status" => "unautheticated"} = json_response(conn, 401)
+    end
+  end
+
+  describe "delete user" do
+    test "deletes chosen user", %{conn: conn} do
+      user = user_fixture()
+      conn = delete(conn, Routes.user_path(conn, :delete, user))
+      assert response(conn, 204)
+
+      assert_error_sent 404, fn ->
+        get(conn, Routes.user_path(conn, :show, user))
+      end
+    end
+  end
 end
