@@ -23,6 +23,10 @@ config :quero_api, QueroApiWeb.Guardian,
   issuer: "quero_api",
   secret_key: "4b+RGGjOyPymf/j952KvTP7nrkArCKZfj1F7LOtshnbSXKKbHoDW6C3GWPzx9PPH"
 
+config :quero_api, QueroApiWeb.AuthAccessPipeline,
+  module: QueroApiWeb.Guardian,
+  error_handler: QueroApiWeb.AuthErrorHandler
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

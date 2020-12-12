@@ -25,8 +25,17 @@ defmodule QueroApiWeb.UserController do
     render(conn, "index.json", users: users)
   end
 
-  def create(conn, %{"email" => email, "password" => password, "password_confirmation" => password_confirmation}) do
-    with {:ok, %User{} = user} <- Accounts.create_user(%{email: email, password: password, password_confirmation: password_confirmation}) do
+  def create(conn, %{
+        "email" => email,
+        "password" => password,
+        "password_confirmation" => password_confirmation
+      }) do
+    with {:ok, %User{} = user} <-
+           Accounts.create_user(%{
+             email: email,
+             password: password,
+             password_confirmation: password_confirmation
+           }) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.user_path(conn, :show, user))
@@ -39,10 +48,20 @@ defmodule QueroApiWeb.UserController do
     render(conn, "show.json", user: user)
   end
 
-  def update(conn, %{"id" => id, "email" => email, "password" => password, "password_confirmation" => password_confirmation}) do
+  def update(conn, %{
+        "id" => id,
+        "email" => email,
+        "password" => password,
+        "password_confirmation" => password_confirmation
+      }) do
     user = Accounts.get_user!(id)
 
-    with {:ok, %User{} = user} <- Accounts.update_user(user, %{email: email, password: password, password_confirmation: password_confirmation}) do
+    with {:ok, %User{} = user} <-
+           Accounts.update_user(user, %{
+             email: email,
+             password: password,
+             password_confirmation: password_confirmation
+           }) do
       render(conn, "show.json", user: user)
     end
   end

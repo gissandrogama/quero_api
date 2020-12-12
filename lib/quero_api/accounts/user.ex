@@ -19,7 +19,11 @@ defmodule QueroApi.Accounts.User do
     |> unique_constraint(:email, message: "Email já cadastrado")
     |> update_change(:email, &String.downcase/1)
     |> validate_format(:email, ~r/@/, message: "Digite uma email válido")
-    |> validate_length(:password, min: 6, max: 64, message: "senha deve conter no minimo 6 caracteres e no maximo 64")
+    |> validate_length(:password,
+      min: 6,
+      max: 64,
+      message: "senha deve conter no minimo 6 caracteres e no maximo 64"
+    )
     |> validate_confirmation(:password, message: "senhas não estão iguais")
     |> hashing()
   end

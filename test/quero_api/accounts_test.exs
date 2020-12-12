@@ -79,14 +79,16 @@ defmodule QueroApi.AccountsTest do
 
     test "authenticate_user/2 returns error when there is no user with this email" do
       user_fixture(%{email: "henry@henry.com"})
-      assert {:error, :invalid_credentials} = Accounts.authenticate_user("henry2@henry.com", "123456")
+
+      assert {:error, :invalid_credentials} =
+               Accounts.authenticate_user("henry2@henry.com", "123456")
     end
 
     test "authenticate_user/2 returns error when the password is invalid" do
       user_fixture(%{email: "henry@henry.com"})
-      assert {:error, :invalid_credentials} = Accounts.authenticate_user("henry@henry.com", "1234568")
+
+      assert {:error, :invalid_credentials} =
+               Accounts.authenticate_user("henry@henry.com", "1234568")
     end
   end
-
-
 end
