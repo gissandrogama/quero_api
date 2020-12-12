@@ -1,4 +1,7 @@
 defmodule QueroApiWeb.AuthErrorHandler do
+  @moduledoc """
+  The error handler is a module that implements an auth_error function
+  """
   import Plug.Conn
 
   @behaviour Guardian.Plug.ErrorHandler

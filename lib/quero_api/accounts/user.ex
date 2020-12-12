@@ -1,4 +1,7 @@
 defmodule QueroApi.Accounts.User do
+  @moduledoc """
+  this is a schema **users** module with the function to verify data integrity
+  """
   use Ecto.Schema
   import Ecto.Changeset
 
