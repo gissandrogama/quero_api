@@ -1,9 +1,11 @@
 defmodule QueroApiWeb.OfferControllerTest do
   use QueroApiWeb.ConnCase, async: true
 
+  import QueroApiWeb.UserAurh
   import QueroApi.FixturesAll
 
   setup %{conn: conn} do
+    conn = authenticate(conn)
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
