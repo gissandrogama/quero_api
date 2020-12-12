@@ -47,6 +47,9 @@ endpoint   | parametros de filtros | valores que podem ser passados para os para
 --------- | ----------------------- | --------------
 /api/courses | kind, level, shift e univerisity | kind(presencial, ead, ...), level(bacharelado, licenciatura, ...), shitf(manhã, noite, ...) e university(Estácio, ..)
 /api/offers | city, course, kind, level, shift,university, prices | kind(presencial, ead, ...), level(bacharelado, licenciatura, ...), shitf(manhã, noite, ...), university(Estácio, ..), city(São Paulo, ...), course(Sistema de informação, ...), prices(maior ou menor)
+/users/new     | email, password e password_confirmation | um email valido, um senha de no minimo 6 caracteres e repetir a senha
+/users/sign_in | email e password | o email e senha cadastrados
+|
 
 obs.: prices oderna os dados de forma crescente(menor) ou decrescente(maior) de acordo o preço com desconto de ofertas.
 

@@ -10,6 +10,7 @@ defmodule QueroApiWeb.Router do
     get "/courses", CourseController, :index
     get "/offers", OfferController, :index
     resources "/users", UserController, except: [:new, :edit]
+    post "/users/sign_in", UserController, :sign_in
   end
 
   # Enables LiveDashboard only for development

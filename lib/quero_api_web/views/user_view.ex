@@ -10,6 +10,15 @@ defmodule QueroApiWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
+  def render("session.json", %{user: user}) do
+    %{
+      status: "ok",
+      data: %{
+        email: user.email 
+      }
+    }
+  end
+
   def render("user.json", %{user: user}) do
     %{id: user.id,
       email: user.email,

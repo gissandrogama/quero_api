@@ -5,7 +5,6 @@ defmodule QueroApi.Courses.Course do
 
   use Ecto.Schema
   import Ecto.Changeset
-  @derive {Jason.Encoder, only: [:kind, :level, :name, :shift]}
 
   alias QueroApi.{Campus, CampusCourses, CoursesOffers}
   alias QueroApi.Offers.Offer
