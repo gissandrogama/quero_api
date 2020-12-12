@@ -48,20 +48,20 @@ defmodule QueroApi.OfferViewTest do
                      name: "Sistema de informação",
                      kind: "Presencial",
                      level: "Bacharelado",
-                     shift: "Manhã",
-                     university: %{
-                       name: "UFRA",
-                       score: 4.5,
-                       logo_url: "https://ufra.org"
-                     },
-                     campus: %{
-                       name: "Belém",
-                       city: "Belém"
-                     }
+                     shift: "Manhã"
+                   },
+                   university: %{
+                     name: "UFRA",
+                     score: 4.5,
+                     logo_url: "https://ufra.org"
+                   },
+                   campus: %{
+                     name: "Belém",
+                     city: "Belém"
                    }
                  }
                ]
-             } =~ OfferView.render("index.json", %{offers: offers})
+             } = OfferView.render("index.json", %{offers: offers})
     end
   end
 end

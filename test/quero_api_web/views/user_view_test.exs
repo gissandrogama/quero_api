@@ -17,7 +17,7 @@ defmodule QueroApiWeb.UserViewTest do
 
   test "render/2 returns session user" do
 
-    assert %{status: "ok",  data: %{email: "teste@email.com"}} =
-             UserView.render("session.json", %{user: %{email: "teste@email.com"}})
+    assert %{status: "ok",  data: %{email: "teste@email.com", token: "token123"}} =
+             UserView.render("session.json", %{user: %{email: "teste@email.com"}, token: "token123"})
   end
 end

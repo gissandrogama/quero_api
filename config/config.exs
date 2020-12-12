@@ -18,6 +18,11 @@ config :quero_api, QueroApiWeb.Endpoint,
   pubsub_server: QueroApi.PubSub,
   live_view: [signing_salt: "a1ZtLCOH"]
 
+# Configures Guardian
+config :quero_api, QueroApiWeb.Guardian,
+  issuer: "quero_api",
+  secret_key: "4b+RGGjOyPymf/j952KvTP7nrkArCKZfj1F7LOtshnbSXKKbHoDW6C3GWPzx9PPH"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

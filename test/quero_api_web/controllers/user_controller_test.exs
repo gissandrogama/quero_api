@@ -90,7 +90,8 @@ defmodule QueroApiWeb.UserControllerTest do
         })
 
       assert %{
-               "email" => "joao@email.com"
+               "email" => "joao@email.com",
+               "token" => _
              } = json_response(conn, 200)["data"]
     end
 

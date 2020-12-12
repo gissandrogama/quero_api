@@ -3,13 +3,15 @@ defmodule QueroApiWeb.UserController do
 
   alias QueroApi.Accounts
   alias QueroApi.Accounts.User
+  alias QueroApiWeb.Guardian
 
   action_fallback QueroApiWeb.FallbackController
 
   def sign_in(conn, %{"email" => email, "password" => password}) do
     case Accounts.authenticate_user(email, password) do
       {:ok, user} ->
-        render(conn, "session.json", %{user: user})
+        {:ok, token, _claims} = Guardian.encode_and_sign(user)
+        render(conn, "session.json", %{user: user, token: token})
 
       {:error, _} ->
         conn
