@@ -8,6 +8,8 @@ defmodule QueroApi.Courses do
 
   alias QueroApi.Courses.Course
 
+  alias QueroApi.Cache
+
   @doc """
   Returns the list of courses.
 
@@ -31,6 +33,42 @@ defmodule QueroApi.Courses do
 
   """
   def list_all_in_courses(discretion) when is_list(discretion) do
+    data = Cache.get()
+
+    case data do
+      nil ->
+        list_all_in_courses_to_db()
+        |> Cache.insert()
+      _ ->
+        Enum.reduce(discretion, data, fn
+          {:kind, ""}, data ->
+            data
+
+          {:kind, kind}, data ->
+            Enum.filter(data, fn data -> data.course.kind == kind end)
+
+          {:level, ""}, data ->
+            data
+
+          {:level, level}, data ->
+            Enum.filter(data, fn data -> data.course.level == level end)
+
+          {:university, ""}, data ->
+            data
+
+          {:university, university}, data ->
+            Enum.filter(data, fn data -> data.university.name == university end)
+
+          {:shift, ""}, data ->
+            data
+
+          {:shift, shift}, data ->
+            Enum.filter(data, fn data -> data.course.shift == shift end)
+        end)
+    end
+  end
+
+  def list_all_in_courses_to_db do
     query =
       from cs in QueroApi.Courses.Course,
         left_join: ccs in QueroApi.CampusCourses.CampusCourse,
@@ -42,34 +80,9 @@ defmodule QueroApi.Courses do
 
     query =
       from [cs, ccs, c, u] in query,
-        select: [course: cs, campus: c, university: u]
+        select: %{course: cs, campus: c, university: u}
 
-    Enum.reduce(discretion, query, fn
-      {:kind, ""}, query ->
-        query
-
-      {:kind, kind}, query ->
-        from q in query, where: ilike(q.kind, ^kind)
-
-      {:level, ""}, query ->
-        query
-
-      {:level, level}, query ->
-        from q in query, where: ilike(q.level, ^level)
-
-      {:university, ""}, query ->
-        query
-
-      {:university, university}, query ->
-        from [cs, ccs, c, u] in query, where: ilike(u.name, ^university)
-
-      {:shift, ""}, query ->
-        query
-
-      {:shift, shift}, query ->
-        from q in query, where: ilike(q.shift, ^shift)
-    end)
-    |> Repo.all()
+    Repo.all(query)
   end
 
   @doc """

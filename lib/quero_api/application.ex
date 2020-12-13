@@ -14,9 +14,10 @@ defmodule QueroApi.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: QueroApi.PubSub},
       # Start the Endpoint (http/https)
-      QueroApiWeb.Endpoint
+      QueroApiWeb.Endpoint,
       # Start a worker by calling: QueroApi.Worker.start_link(arg)
       # {QueroApi.Worker, arg}
+      QueroApi.Cache
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
