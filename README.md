@@ -62,6 +62,8 @@ para fazer os teste ultilizei o insomnia, mas pode ser ultilizado outros program
 caso queira usar o insomnia, segue um arquivo já com as rotas para ultilizar o insomnia:
 [arquivo insomnia](./Insomnia_2020-12-11.json)
 
+nas rotas ````/api/courses```` e ````/api/offers```` foi feito cache com ETS
+
 # GET listar cursos projeto local
 
 ## Sem passar nenhum parametro
