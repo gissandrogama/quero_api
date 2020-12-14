@@ -7,6 +7,7 @@ defmodule QueroApi.Offers do
   alias QueroApi.Repo
 
   alias QueroApi.Offers.Offer
+  alias QueroApi.CacheOffers
 
   @doc """
   Returns the list of offers.
@@ -22,15 +23,100 @@ defmodule QueroApi.Offers do
   end
 
   @doc """
-  Returns the list of lists of courses, campus and universities.
+   Returns the list of courses, campuses, offers and university maps from the cache
 
   ## Examples
 
       iex> list_all_in_offers()
-      [[offer: %Offer{}, course: %Course{}, campus: %Campu{}, university: %University{}], ...]
+      [%{offer: %Offer{}, course: %Course{}, campus: %Campu{}, university: %University{}}, ...]
 
   """
   def list_all_in_offers(discretion) when is_list(discretion) do
+    data = CacheOffers.get()
+
+    case data do
+      [] ->
+        list_all_in_offers_to_db()
+        data = CacheOffers.get()
+
+        filter(discretion, data)
+
+      _ ->
+        filter(discretion, data)
+    end
+  end
+
+  defp filter(params, data) do
+    Enum.reduce(params, data, fn
+      {:city, ""}, data ->
+        data
+
+      {:city, city}, data ->
+        Enum.filter(data, fn data -> standardize(data.campus.city) == standardize(city) end)
+
+      {:course, ""}, data ->
+        data
+
+      {:course, course}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.name) == standardize(course) end)
+
+      {:kind, ""}, data ->
+        data
+
+      {:kind, kind}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.kind) == standardize(kind) end)
+
+      {:level, ""}, data ->
+        data
+
+      {:level, level}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.level) == standardize(level) end)
+
+      {:university, ""}, data ->
+        data
+
+      {:university, university}, data ->
+        Enum.filter(data, fn data ->
+          standardize(data.university.name) == standardize(university)
+        end)
+
+      {:shift, ""}, data ->
+        data
+
+      {:shift, shift}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.shift) == standardize(shift) end)
+
+      {:prices, ""}, data ->
+        data
+
+      {:prices, prices}, data ->
+        case prices do
+          "maior" ->
+            Enum.sort_by(data, &(&1.offer.price_with_discount), :desc)
+
+          "menor" ->
+            Enum.sort_by(data, &(&1.offer.price_with_discount), :asc)
+        end
+    end)
+  end
+
+  defp standardize(params) do
+    params
+    |> String.normalize(:nfd)
+    |> String.downcase()
+    |> String.replace(~r/[^A-z\s]/u, "")
+  end
+
+  @doc """
+  Returns the list of maps of offers, campuses, courses and universities from the database
+
+  ## Examples
+
+      iex> list_all_in_courses_to_db([kind: "presencial", level: "", university: "unip", shift: "noite"])
+      [%{offer: %Offer{}, course: %Course{}, campus: %Campu{}, university: %University{}}, ...]
+
+  """
+  def list_all_in_offers_to_db do
     query =
       from of in QueroApi.Offers.Offer,
         join: cof in QueroApi.CoursesOffers.CoursesOffer,
@@ -46,58 +132,9 @@ defmodule QueroApi.Offers do
 
     query =
       from [of, cof, cs, ccs, c, u] in query,
-        select: [offer: of, course: cs, campus: c, university: u]
+        select: %{offer: of, course: cs, campus: c, university: u}
 
-    Enum.reduce(discretion, query, fn
-      {:city, ""}, query ->
-        query
-
-      {:city, city}, query ->
-        from [of, cof, cs, ccs, c, u] in query, where: ilike(c.city, ^city)
-
-      {:course, ""}, query ->
-        query
-
-      {:course, course}, query ->
-        from [of, cof, cs, ccs, c, u] in query, where: ilike(cs.name, ^course)
-
-      {:kind, ""}, query ->
-        query
-
-      {:kind, kind}, query ->
-        from [of, cof, cs, ccs, c, u] in query, where: ilike(cs.kind, ^kind)
-
-      {:level, ""}, query ->
-        query
-
-      {:level, level}, query ->
-        from [of, cof, cs, ccs, c, u] in query, where: ilike(cs.level, ^level)
-
-      {:university, ""}, query ->
-        query
-
-      {:university, university}, query ->
-        from [of, cof, cs, ccs, c, u] in query, where: ilike(u.name, ^university)
-
-      {:shift, ""}, query ->
-        query
-
-      {:shift, shift}, query ->
-        from [of, cof, cs, ccs, c, u] in query, where: ilike(cs.shift, ^shift)
-
-      {:prices, ""}, query ->
-        query
-
-      {:prices, prices}, query ->
-        case prices do
-          "maior" ->
-            from q in query, order_by: [desc: q.price_with_discount]
-
-          "menor" ->
-            from q in query, order_by: [asc: q.price_with_discount]
-        end
-    end)
-    |> Repo.all()
+    Repo.all(query) |> CacheOffers.insert()
   end
 
   @doc """

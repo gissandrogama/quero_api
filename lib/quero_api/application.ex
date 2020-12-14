@@ -17,7 +17,8 @@ defmodule QueroApi.Application do
       QueroApiWeb.Endpoint,
       # Start a worker by calling: QueroApi.Worker.start_link(arg)
       # {QueroApi.Worker, arg}
-      QueroApi.Cache
+      QueroApi.CacheCourses,
+      QueroApi.CacheOffers
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

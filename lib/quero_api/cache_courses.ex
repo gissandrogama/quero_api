@@ -1,4 +1,4 @@
-defmodule QueroApi.Cache do
+defmodule QueroApi.CacheCourses do
   use GenServer
 
   def start_link(_) do

@@ -9,7 +9,6 @@ defmodule QueroApi.Repo.Migrations.CreateCampusCourses do
       timestamps()
     end
 
-    create index(:campus_courses, [:campu_id])
-    create index(:campus_courses, [:course_id])
+    create(unique_index(:campus_courses, [:campu_id, :course_id]))
   end
 end

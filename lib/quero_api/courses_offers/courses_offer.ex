@@ -16,8 +16,6 @@ defmodule QueroApi.CoursesOffers.CoursesOffer do
   def changeset(courses_offer, attrs) do
     courses_offer
     |> cast(attrs, [:course_id, :offer_id])
-    |> foreign_key_constraint(:course_id)
-    |> foreign_key_constraint(:offer_id)
     |> validate_required([:course_id, :offer_id])
   end
 end

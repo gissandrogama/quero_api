@@ -41,12 +41,6 @@ defmodule QueroApi.FixturesAll do
     university
   end
 
-  # def extract_user_token(fun) do
-  #   {:ok, captured} = fun.(&"[TOKEN]#{&1}[TOKEN]")
-  #   [_, token, _] = String.split(captured.body, "[TOKEN]")
-  #   token
-  # end
-
   def name_campus, do: "some name-#{System.unique_integer()}"
   def city, do: "some cyte"
   def university_id, do: university_fixture()

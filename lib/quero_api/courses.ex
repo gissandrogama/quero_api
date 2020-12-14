@@ -8,7 +8,7 @@ defmodule QueroApi.Courses do
 
   alias QueroApi.Courses.Course
 
-  alias QueroApi.Cache
+  alias QueroApi.CacheCourses
 
   @doc """
   Returns the list of courses.
@@ -24,50 +24,75 @@ defmodule QueroApi.Courses do
   end
 
   @doc """
-  Returns the list of lists of courses, campus and universities.
+  Returns the list of course, campus and university maps from the cache
 
   ## Examples
 
       iex> list_all_in_courses([kind: "presencial", level: "", university: "unip", shift: "noite"])
-      [[course: %Course{}, campus: %Campu{}, university: %University{}], ...]
+      [%{course: %Course{}, campus: %Campu{}, university: %University{}}, ...]
 
   """
   def list_all_in_courses(discretion) when is_list(discretion) do
-    data = Cache.get()
+    data = CacheCourses.get()
 
     case data do
-      nil ->
+      [] ->
         list_all_in_courses_to_db()
-        |> Cache.insert()
+        data = CacheCourses.get()
+
+        filter(discretion, data)
+
       _ ->
-        Enum.reduce(discretion, data, fn
-          {:kind, ""}, data ->
-            data
-
-          {:kind, kind}, data ->
-            Enum.filter(data, fn data -> data.course.kind == kind end)
-
-          {:level, ""}, data ->
-            data
-
-          {:level, level}, data ->
-            Enum.filter(data, fn data -> data.course.level == level end)
-
-          {:university, ""}, data ->
-            data
-
-          {:university, university}, data ->
-            Enum.filter(data, fn data -> data.university.name == university end)
-
-          {:shift, ""}, data ->
-            data
-
-          {:shift, shift}, data ->
-            Enum.filter(data, fn data -> data.course.shift == shift end)
-        end)
+        filter(discretion, data)
     end
   end
 
+  defp filter(params, data) do
+    Enum.reduce(params, data, fn
+      {:kind, ""}, data ->
+        data
+
+      {:kind, kind}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.kind) == standardize(kind) end)
+
+      {:level, ""}, data ->
+        data
+
+      {:level, level}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.level) == standardize(level) end)
+
+      {:university, ""}, data ->
+        data
+
+      {:university, university}, data ->
+        Enum.filter(data, fn data ->
+          standardize(data.university.name) == standardize(university)
+        end)
+
+      {:shift, ""}, data ->
+        data
+
+      {:shift, shift}, data ->
+        Enum.filter(data, fn data -> standardize(data.course.shift) == standardize(shift) end)
+    end)
+  end
+
+  defp standardize(params) do
+    params
+    |> String.normalize(:nfd)
+    |> String.downcase()
+    |> String.replace(~r/[^A-z\s]/u, "")
+  end
+
+  @doc """
+  Returns the list of maps of courses, campuses and universities from the database
+
+  ## Examples
+
+      iex> list_all_in_courses_to_db([kind: "presencial", level: "", university: "unip", shift: "noite"])
+      [%{course: %Course{}, campus: %Campu{}, university: %University{}}, ...]
+
+  """
   def list_all_in_courses_to_db do
     query =
       from cs in QueroApi.Courses.Course,
@@ -82,7 +107,7 @@ defmodule QueroApi.Courses do
       from [cs, ccs, c, u] in query,
         select: %{course: cs, campus: c, university: u}
 
-    Repo.all(query)
+    Repo.all(query) |> CacheCourses.insert()
   end
 
   @doc """
