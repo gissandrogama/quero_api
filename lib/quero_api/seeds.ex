@@ -68,7 +68,7 @@ defmodule QueroApi.Seeds do
           do: {campu, courses_map}
 
     campus_courses
-    |> Enum.map(fn {campu, course} -> {QueroApi.Repo.preload(campu, :courses), course} end)
+    |> Enum.map(fn {campu, course} -> {QueroApi.Repo.preload(campu, [:university, :courses]), course} end)
     |> Enum.map(fn {campu, course} -> {QueroApi.Campus.change_campu(campu), course} end)
     |> Enum.map(fn {campu, course} -> Ecto.Changeset.put_assoc(campu, :courses, [course]) end)
   end
@@ -88,6 +88,7 @@ defmodule QueroApi.Seeds do
     end)
     |> assoc_course_offer(courses)
     |> Enum.map(fn offer -> QueroApi.Repo.update(offer) end)
+
   end
 
   defp assoc_course_offer(offers_params, courses) do
@@ -117,14 +118,18 @@ defmodule QueroApi.Seeds do
           offer["enabled"] == offers_map.enabled,
           do: {course, offers_map}
 
+
     course_offers =
       Enum.map(course_offers, fn {course, offer} ->
         {QueroApi.Repo.preload(course, [:campus, :offers]), offer}
       end)
+      |> IO.inspect()
       |> Enum.map(fn {course, offer} -> {QueroApi.Courses.change_course(course), offer} end)
+      |> IO.inspect()
       |> Enum.map(fn {course, offer} -> Ecto.Changeset.put_assoc(course, :offers, [offer]) end)
 
-    course_offers
+
+    IO.inspect(course_offers)
   end
 
   @spec insert_courses :: [map()]
