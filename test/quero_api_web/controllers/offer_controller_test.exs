@@ -2,7 +2,7 @@ defmodule QueroApiWeb.OfferControllerTest do
   use QueroApiWeb.ConnCase, async: true
 
   import QueroApiWeb.UserAurh
-  import QueroApi.FixturesAll
+  # import QueroApi.FixturesAll
   alias QueroApi.CacheOffers
 
   setup %{conn: conn} do

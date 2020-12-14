@@ -34,7 +34,7 @@ defmodule QueroApiWeb.CourseControllerTest do
         })
 
       assert json_response(conn, 200)["data"] ==
-               Enum.map(Cache.get(), fn data ->
+               Enum.map(CacheCourses.get(), fn data ->
                  %{
                    "course" => %{
                      "campus" => %{"city" => data.campus.city, "name" => data.campus.name},
@@ -62,7 +62,7 @@ defmodule QueroApiWeb.CourseControllerTest do
         })
 
       assert json_response(conn, 200)["data"] ==
-               Enum.map(Cache.get(), fn data ->
+               Enum.map(CacheCourses.get(), fn data ->
                  %{
                    "course" => %{
                      "campus" => %{"city" => data.campus.city, "name" => data.campus.name},
