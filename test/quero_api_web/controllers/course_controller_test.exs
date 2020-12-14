@@ -53,7 +53,6 @@ defmodule QueroApiWeb.CourseControllerTest do
     end
 
     test "lists all courses", %{conn: conn} do
-
       conn =
         get(conn, Routes.course_path(conn, :index), %{
           "kind" => "",

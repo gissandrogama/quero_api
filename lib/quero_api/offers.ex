@@ -4,10 +4,8 @@ defmodule QueroApi.Offers do
   """
 
   import Ecto.Query, warn: false
-  alias QueroApi.Repo
 
-  alias QueroApi.Offers.Offer
-  alias QueroApi.CacheOffers
+  alias QueroApi.{CacheOffers, Offers.Offer, Repo}
 
   @doc """
   Returns the list of offers.
@@ -92,10 +90,10 @@ defmodule QueroApi.Offers do
       {:prices, prices}, data ->
         case prices do
           "maior" ->
-            Enum.sort_by(data, &(&1.offer.price_with_discount), :desc)
+            Enum.sort_by(data, & &1.offer.price_with_discount, :desc)
 
           "menor" ->
-            Enum.sort_by(data, &(&1.offer.price_with_discount), :asc)
+            Enum.sort_by(data, & &1.offer.price_with_discount, :asc)
         end
     end)
   end

@@ -1,4 +1,7 @@
 defmodule QueroApi.CacheCourses do
+  @moduledoc """
+  Cache courses
+  """
   use GenServer
 
   def start_link(_) do
@@ -22,7 +25,6 @@ defmodule QueroApi.CacheCourses do
     GenServer.cast(CourseCache, {:delete, key})
   end
 
-
   # Internal API
   def handle_call({:insert, data}, _from, state) do
     :ets.insert(:course_cache, {:courses, data})
@@ -35,7 +37,8 @@ defmodule QueroApi.CacheCourses do
         [] -> []
         [{:courses, courses}] -> courses
       end
-      {:reply, data, state}
+
+    {:reply, data, state}
   end
 
   def handle_cast({:delete, key}, state) do
