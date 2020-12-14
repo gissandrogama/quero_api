@@ -16,6 +16,8 @@ defmodule QueroApi.CampusCourses.CampusCourse do
   def changeset(campus_course, attrs) do
     campus_course
     |> cast(attrs, [:campu_id, :course_id])
+    |> foreign_key_constraint(:campu_id)
+    |> foreign_key_constraint(:course_id)
     |> validate_required([:campu_id, :course_id])
   end
 end
