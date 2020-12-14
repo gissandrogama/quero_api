@@ -2,6 +2,8 @@
 
 # QueroApi
 
+![Elixir CI](https://github.com/gissandrogama/quero_api/workflows/Elixir%20CI/badge.svg?branch=main)
+
 Desafio **bac-kend** que o objetivo é criar uma API para exibição e filtragem de ofertas de curso.
 
 # Informacoes Tecnicas
