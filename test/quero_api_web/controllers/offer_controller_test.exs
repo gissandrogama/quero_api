@@ -24,32 +24,31 @@ defmodule QueroApiWeb.OfferControllerTest do
         })
 
       assert json_response(conn, 200)["data"] ==
-        Enum.map(CacheOffers.get(), fn data ->
-          %{
-            "full_price" => data.offer.full_price,
-            "price_with_discount" => data.offer.price_with_discount,
-            "discount_percentage" => data.offer.discount_percentage,
-            "start_date" => data.offer.start_date,
-            "enrollment_semester" => data.offer.enrollment_semester,
-            "enabled" => data.offer.enabled,
-            "course" => %{
-              "name" => data.course.name,
-              "kind" => data.course.kind,
-              "level" => data.course.level,
-              "shift" => data.course.shift
-            },
-            "university" => %{
-              "name" => data.university.name,
-              "score" => data.university.score,
-              "logo_url" => data.university.logo_url
-            },
-            "campus" => %{
-              "name" => data.campu.name,
-              "city" => data.campu.city
-            }
-          }
-        end)
-
+               Enum.map(CacheOffers.get(), fn data ->
+                 %{
+                   "full_price" => data.offer.full_price,
+                   "price_with_discount" => data.offer.price_with_discount,
+                   "discount_percentage" => data.offer.discount_percentage,
+                   "start_date" => data.offer.start_date,
+                   "enrollment_semester" => data.offer.enrollment_semester,
+                   "enabled" => data.offer.enabled,
+                   "course" => %{
+                     "name" => data.course.name,
+                     "kind" => data.course.kind,
+                     "level" => data.course.level,
+                     "shift" => data.course.shift
+                   },
+                   "university" => %{
+                     "name" => data.university.name,
+                     "score" => data.university.score,
+                     "logo_url" => data.university.logo_url
+                   },
+                   "campus" => %{
+                     "name" => data.campu.name,
+                     "city" => data.campu.city
+                   }
+                 }
+               end)
     end
 
     # test "lists all offers", %{conn: conn} do
