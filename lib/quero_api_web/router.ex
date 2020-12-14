@@ -13,7 +13,6 @@ defmodule QueroApiWeb.Router do
   scope "/api", QueroApiWeb do
     pipe_through :api
     get "/courses", CourseController, :index
-    # get "/offers", OfferController, :index
     resources "/users", UserController, except: [:new]
     post "/users/sign_in", UserController, :sign_in
   end
