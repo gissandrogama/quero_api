@@ -22,7 +22,6 @@ defmodule QueroApi.Seeds.InsertCoursesOffers do
   end
 
   def assoc_course_offer(offers_params, courses) do
-
     merger(offers_params, courses)
     |> Enum.map(fn {course, offer} ->
       {QueroApi.Repo.preload(course, [:campus, :offers]), offer}
@@ -30,7 +29,6 @@ defmodule QueroApi.Seeds.InsertCoursesOffers do
     |> Enum.map(fn {course, offer} -> {QueroApi.Courses.change_course(course), offer} end)
     |> Enum.map(fn {course, offer} -> Ecto.Changeset.put_assoc(course, :offers, [offer]) end)
   end
-
 
   def merger(json, course_campus) do
     offers = QueroApi.Offers.list_offers()

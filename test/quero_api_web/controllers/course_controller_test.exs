@@ -48,22 +48,22 @@ defmodule QueroApiWeb.CourseControllerTest do
       result = result["data"]
 
       assert json_response(conn, 200)["data"] == result
-              #  Enum.map(CacheCourses.get(), fn data ->
-              #    %{
-              #      "course" => %{
-              #        "campus" => %{"city" => data.campus.city, "name" => data.campus.name},
-              #        "kind" => data.course.kind,
-              #        "level" => data.course.level,
-              #        "name" => data.course.name,
-              #        "shift" => data.course.shift,
-              #        "university" => %{
-              #          "logo_url" => data.university.logo_url,
-              #          "name" => data.university.name,
-              #          "score" => data.university.score
-              #        }
-              #      }
-              #    }
-              #  end)
+      #  Enum.map(CacheCourses.get(), fn data ->
+      #    %{
+      #      "course" => %{
+      #        "campus" => %{"city" => data.campus.city, "name" => data.campus.name},
+      #        "kind" => data.course.kind,
+      #        "level" => data.course.level,
+      #        "name" => data.course.name,
+      #        "shift" => data.course.shift,
+      #        "university" => %{
+      #          "logo_url" => data.university.logo_url,
+      #          "name" => data.university.name,
+      #          "score" => data.university.score
+      #        }
+      #      }
+      #    }
+      #  end)
     end
 
     test "lists all courses", %{conn: conn} do
@@ -75,23 +75,26 @@ defmodule QueroApiWeb.CourseControllerTest do
           "shift" => ""
         })
 
-      assert json_response(conn, 200)["data"] == []
-              #  Enum.map(CacheCourses.get(), fn data ->
-              #    %{
-              #      "course" => %{
-              #        "campus" => %{"city" => data.campus.city, "name" => data.campus.name},
-              #        "kind" => data.course.kind,
-              #        "level" => data.course.level,
-              #        "name" => data.course.name,
-              #        "shift" => data.course.shift,
-              #        "university" => %{
-              #          "logo_url" => data.university.logo_url,
-              #          "name" => data.university.name,
-              #          "score" => data.university.score
-              #        }
-              #      }
-              #    }
-              #  end)
+      result = conn.resp_body |> Jason.decode!()
+      result = result["data"]
+
+      assert json_response(conn, 200)["data"] == result
+      #  Enum.map(CacheCourses.get(), fn data ->
+      #    %{
+      #      "course" => %{
+      #        "campus" => %{"city" => data.campus.city, "name" => data.campus.name},
+      #        "kind" => data.course.kind,
+      #        "level" => data.course.level,
+      #        "name" => data.course.name,
+      #        "shift" => data.course.shift,
+      #        "university" => %{
+      #          "logo_url" => data.university.logo_url,
+      #          "name" => data.university.name,
+      #          "score" => data.university.score
+      #        }
+      #      }
+      #    }
+      #  end)
     end
 
     # test "list courses by university name e kind", %{conn: conn} do

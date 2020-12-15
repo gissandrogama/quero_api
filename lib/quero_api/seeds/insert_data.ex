@@ -3,7 +3,14 @@ defmodule QueroApi.Seeds.InsertData do
   Este modulo possui funções que automatizão a inserção de dados apartir de um arquivo json e
   mapeia das associações de relações do banco de dados.
   """
-  alias QueroApi.Seeds.{InsertCampus, InsertCourses, InsertOffers, InsertCampusCourses, InsertCoursesOffers, InsertUnivesity}
+  alias QueroApi.Seeds.{
+    InsertCampus,
+    InsertCampusCourses,
+    InsertCourses,
+    InsertCoursesOffers,
+    InsertOffers,
+    InsertUnivesity
+  }
 
   @spec insert_data(String) :: [map()]
   def insert_data(name) do
