@@ -2,11 +2,13 @@ defmodule QueroApiWeb.Router do
   use QueroApiWeb, :router
 
   pipeline :api_as_user do
+    plug CORSPlug, origin: "*"
     plug :accepts, ["json"]
     plug QueroApiWeb.AuthAccessPipeline
   end
 
   pipeline :api do
+    plug CORSPlug
     plug :accepts, ["json"]
   end
 
