@@ -13,15 +13,16 @@ defmodule QueroApiWeb.Router do
   scope "/api", QueroApiWeb do
     pipe_through :api
     get "/courses", CourseController, :index
-    resources "/users", UserController, except: [:new]
-    post "/users/sign_in", UserController, :sign_in
+    post "/users", UserController, :create
+    post "/users/:id", UserController, :delete
+    get "/users/:id", UserController, :show
+    post "/sign_in", UserController, :sign_in
   end
 
   scope "/api", QueroApiWeb do
     pipe_through :api_as_user
 
     get "/offers", OfferController, :index
-    resources "/users", UserController, except: [:edit]
   end
 
   # Enables LiveDashboard only for development
