@@ -2,6 +2,7 @@ defmodule QueroApiWeb.UserControllerTest do
   use QueroApiWeb.ConnCase, async: true
 
   import QueroApi.FixturesAll
+  import QueroApiWeb.UserAurh
 
   alias Argon2
 
@@ -59,6 +60,7 @@ defmodule QueroApiWeb.UserControllerTest do
 
   describe "update user" do
     test "renders user when data is valid", %{conn: conn} do
+      conn = authenticate(conn)
       user = user_fixture(%{email: "henry@email.com"})
       conn = put(conn, Routes.user_path(conn, :update, user), @update_attrs)
       assert %{"id" => id} = json_response(conn, 200)["data"]
@@ -73,6 +75,7 @@ defmodule QueroApiWeb.UserControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
+      conn = authenticate(conn)
       user = user_fixture()
       conn = put(conn, Routes.user_path(conn, :update, user), @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
@@ -122,6 +125,7 @@ defmodule QueroApiWeb.UserControllerTest do
 
   describe "delete user" do
     test "deletes chosen user", %{conn: conn} do
+      conn = authenticate(conn)
       user = user_fixture()
       conn = post(conn, Routes.user_path(conn, :delete, user))
       assert response(conn, 204)
