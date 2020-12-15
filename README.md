@@ -52,7 +52,7 @@ Endpoint's de usuários para atenticação com JTW
 
 endpoint   | parametros para users | valores que podem ser passados para os parametros
 --------- | ----------------------- | --------------
-/users/new     | email, password e password_confirmation | um email valido, um senha de no minimo 6 caracteres e repetir a senha para criar um user
+/users     | email, password e password_confirmation | um email valido, um senha de no minimo 6 caracteres e repetir a senha para criar um user
 /users/sign_in | email e password | o email e senha cadastrados para efetuar o login
 
 obs.: prices oderna os dados de forma crescente(menor) ou decrescente(maior) de acordo o preço com desconto de ofertas.
@@ -97,7 +97,52 @@ na requisição acima ele recupera todos os cursos que tem relação com a **UNI
 
 
 # GET listar ofertas projeto local
-essa rota necessita de um usuário autenticado.
+
+## Essa rota necessita de um usuário autenticado.
+caso não tenha um usuário crie um da seguinte forma:
+
+tipo post /users
+```sh
+curl --request POST \
+  --url http://localhost:4000/api/users \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"email": "henry@gmail.com",
+	"password": "456789",
+	"password_confirmation": "456789"
+}'
+```
+
+Parametros
+```json
+{
+	"email": "henry@gmail.com",
+	"password": "456789",
+	"password_confirmation": "456789"
+}
+```
+
+Para autenticar
+tipo post /users/sign_in
+```sh
+curl --request POST \
+  --url http://localhost:4000/api/users/sign_in \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"email": "henry@gmail.com",
+	"password": "456789"
+}'
+```
+
+Parametros
+```json
+{
+	"email": "henry@gmail.com",
+	"password": "456789"
+}
+```
+
 
 ## Sem passar nenhum parametro
 
