@@ -61,12 +61,15 @@ obs.: prices oderna os dados de forma crescente(menor) ou decrescente(maior) de 
 
 para fazer os teste ultilizei o insomnia, mas pode ser ultilizado outros programa como o postman.
 
-caso queira usar o insomnia, segue um arquivo já com as rotas para ultilizar o insomnia:
+caso queira usar o insomnia, segue um arquivo já com as rotas para ultilizar, tanto local ou produção
 [arquivo insomnia](./Insomnia_2020-12-11.json)
 
 nas rotas ````/api/courses```` e ````/api/offers```` foi feito cache com ETS
 
-# GET listar cursos projeto local
+# Deploy
+A aplicação está no gigalixir no endereço ```https://quero-api.gigalixirapp.com/```. Um dos motivos de escolher o gigalixir é que não tem sleeps da aplicação no plano free.
+
+# GET listar cursos projeto local e em produção
 
 ## Sem passar nenhum parametro
 
@@ -75,10 +78,20 @@ usando navedador
 http://localhost:4000/api/courses?university&kind&level&shift
 ```
 
+```
+https://quero-api.gigalixirapp.com/api/courses?university&kind&level&shift
+```
+
 usando o terminal
 ```sh
 $ curl --request GET \
   --url 'http://localhost:4000/api/courses?university=&kind=&level=&shift='
+```
+
+usando o terminal
+```sh
+curl --request GET \
+  --url 'https://quero-api.gigalixirapp.com/api/courses?university=&kind=&level=&shift='
 ```
 recupera todos os cursos do banco de dados.
 
@@ -90,15 +103,26 @@ usando navedador
 http://localhost:4000/api/courses?university=unip&kind&level&shift
 ```
 
+usando navedador server prod
+```
+https://quero-api.gigalixirapp.com/api/courses?university=unip&kind&level&shift
+```
+
 usando o terminal
 ```sh
 $ curl --request GET \
   --url 'http://localhost:4000/api/courses?university=unip&kind=&level=&shift='
 ```
+
+usando o terminal server prod
+```sh
+$ curl --request GET \
+  --url 'https://quero-api.gigalixirapp.com/api/courses?university=unip&kind=&level=&shift='
+```
 na requisição acima ele recupera todos os cursos que tem relação com a **UNIP**.
 
 
-# GET listar ofertas projeto local
+# GET listar ofertas projeto local e produção
 
 ## Essa rota necessita de um usuário autenticado.
 caso não tenha um usuário crie um da seguinte forma:
@@ -107,6 +131,18 @@ tipo post /users
 ```sh
 curl --request POST \
   --url http://localhost:4000/api/users \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"email": "henry@gmail.com",
+	"password": "456789",
+	"password_confirmation": "456789"
+}'
+```
+
+```sh
+curl --request POST \
+  --url https://quero-api.gigalixirapp.com/api/users \
   --header 'Accept: application/json' \
   --header 'Content-Type: application/json' \
   --data '{
@@ -137,6 +173,16 @@ curl --request POST \
 }'
 ```
 
+```sh
+curl --request POST \
+  --url https://quero-api.gigalixirapp.com/api/users/sign_in \
+  --header 'Content-Type: application/json' \
+  --data '{
+	"email": "henry@gmail.com",
+	"password": "456789"
+}'
+```
+
 Parametros
 ```json
 {
@@ -153,11 +199,34 @@ usando o navegador
 http://localhost:4000/api/offers?university&course&kind&level&shift&city&prices
 ```
 
+Produção
+```
+https://quero-api.gigalixirapp.com/api/offers?university&course&kind&level&shift&city&prices
+```
+
 usando o terminal
 
 ```sh
 $ curl --request GET \
   --url 'http://localhost:4000/api/offers?university=&course=&kind=&level=&shift=&city=&prices='
+
+```
+
+```sh
+$ curl --request GET \
+  --url 'https://quero-api.gigalixirapp.com/api/offers?university=&course=&kind=&level=&shift=&city=&prices='
+
+```
+
+```sh
+$ curl --request GET \
+  --url 'http://localhost:4000/api/offers?university=&course=&kind=&level=&shift=&city=&prices='
+
+```
+
+```sh
+$ curl --request GET \
+  --url 'https://quero-api.gigalixirapp.com/api/offers?university=&course=&kind=&level=&shift=&city=&prices='
 
 ```
 recupera todos as offertas do banco de dados.
@@ -170,9 +239,18 @@ usando o navegador
 http://localhost:4000/api/offers?university=unip&course&kind&level&shift&city&prices=maior
 ```
 
+```
+https://quero-api.gigalixirapp.com/api/offers?university=unip&course&kind&level&shift&city&prices=maior
+```
+
 usando o terminal
 ```sh
 $ curl --request GET \
   --url 'http://localhost:4000/api/offers?university=unip&course=&kind=&level=&shift=&city=&prices=maior'
+```
+
+```sh
+$ curl --request GET \
+  --url 'https://quero-api.gigalixirapp.com/api/offers?university=unip&course=&kind=&level=&shift=&city=&prices=maior'
 ```
 na requisição acima ela recupera todos as ofertas que tem relação com a **UNIP** e ordena do mario valor com desconto para o menor.
