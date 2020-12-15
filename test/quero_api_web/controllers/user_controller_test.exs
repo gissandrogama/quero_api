@@ -123,7 +123,7 @@ defmodule QueroApiWeb.UserControllerTest do
   describe "delete user" do
     test "deletes chosen user", %{conn: conn} do
       user = user_fixture()
-      conn = delete(conn, Routes.user_path(conn, :delete, user))
+      conn = post(conn, Routes.user_path(conn, :delete, user))
       assert response(conn, 204)
 
       assert_error_sent 404, fn ->

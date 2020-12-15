@@ -14,7 +14,9 @@ defmodule QueroApiWeb.Router do
     pipe_through :api
     get "/courses", CourseController, :index
     post "/users", UserController, :create
+    get "/users", UserController, :index
     post "/users/:id", UserController, :delete
+    put "/users/:id", UserController, :update
     get "/users/:id", UserController, :show
     post "/sign_in", UserController, :sign_in
   end
