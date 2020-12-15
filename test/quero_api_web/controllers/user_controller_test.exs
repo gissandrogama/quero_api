@@ -116,7 +116,7 @@ defmodule QueroApiWeb.UserControllerTest do
       conn =
         post(conn, Routes.user_path(conn, :sign_in), %{
           email: "joao@email.com",
-          password: "12345687"
+          password: "1234568757"
         })
 
       assert %{"status" => "unautheticated"} = json_response(conn, 401)
