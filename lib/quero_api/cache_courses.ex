@@ -17,8 +17,8 @@ defmodule QueroApi.CacheCourses do
     GenServer.call(CourseCache, {:insert, data})
   end
 
-  def get do
-    GenServer.call(CourseCache, {:get, :courses})
+  def get(key) do
+    GenServer.call(CourseCache, {:get, key})
   end
 
   def delete(key) do
@@ -31,9 +31,9 @@ defmodule QueroApi.CacheCourses do
     {:reply, :ok, state}
   end
 
-  def handle_call({:get, :courses}, _from, state) do
+  def handle_call({:get, key}, _from, state) do
     data =
-      case :ets.lookup(:course_cache, :courses) do
+      case :ets.lookup(:course_cache, key) do
         [] -> []
         [{:courses, courses}] -> courses
       end

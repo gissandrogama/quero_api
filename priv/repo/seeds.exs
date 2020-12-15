@@ -16,4 +16,4 @@
 data = File.read!("./priv/repo/db.json") |> Jason.decode!()
 names_universities = Enum.map(data, fn names -> names["university"]["name"] end) |> Enum.uniq()
 
-Enum.map(names_universities, fn name -> QueroApi.Seeds.university(name) end)
+Enum.map(names_universities, fn name -> QueroApi.Seeds.InsertData.insert_data(name) end)

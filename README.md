@@ -97,6 +97,7 @@ na requisição acima ele recupera todos os cursos que tem relação com a **UNI
 
 
 # GET listar ofertas projeto local
+essa rota necessita de um usuário autenticado.
 
 ## Sem passar nenhum parametro
 
