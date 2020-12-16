@@ -44,7 +44,7 @@ defmodule QueroApi.Offers do
     end
   end
 
-  defp filter(params, data) do
+  def filter(params, data) do
     Enum.reduce(params, data, fn
       {:city, ""}, data ->
         data
