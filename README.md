@@ -264,5 +264,5 @@ na requisição acima ela recupera todos as ofertas que tem relação com a **UN
 # Gerar documentação da aplicação
 
 ```sh
-$ mix doc
+$ mix docs
 ```
