@@ -31,15 +31,21 @@ $ cd quero_api
 
 **3.** Instale as dependências:
 
-```$ mix deps.get```
+```sh
+$ mix deps.get
+```
 
 **4.** criar e migrar o banco de dados, e inserir dados do db.json:
 
-```$ mix ecto.setup```
+```sh
+$ mix ecto.setup
+```
 
 **5.** inicie o endpoit phoenix com:
 
-```$ mix phx.sever```
+```sh
+$ mix phx.sever
+```
 
 # Sobre API
 
@@ -254,3 +260,9 @@ $ curl --request GET \
   --url 'https://quero-api.gigalixirapp.com/api/offers?university=unip&course=&kind=&level=&shift=&city=&prices=maior'
 ```
 na requisição acima ela recupera todos as ofertas que tem relação com a **UNIP** e ordena do mario valor com desconto para o menor.
+
+# Gerar documentação da aplicação
+
+```sh
+$ mix doc
+```

@@ -10,7 +10,16 @@ defmodule QueroApi.MixProject do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      # Docs
+      name: "QueroApi",
+      source_url: "https://github.com/gissandrogama/quero_api",
+      homepage_url: "https://quero-api.gigalixirapp.com/",
+      docs: [
+        # The main page in the docs
+        main: "QueroApi",
+        extras: ["README.md"]
+      ]
     ]
   end
 
@@ -46,7 +55,8 @@ defmodule QueroApi.MixProject do
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:guardian, "~> 2.0"},
       {:argon2_elixir, "~> 2.0"},
-      {:cors_plug, "~> 2.0"}
+      {:cors_plug, "~> 2.0"},
+      {:ex_doc, "~> 0.23", only: :dev, runtime: false}
     ]
   end
 
