@@ -67,7 +67,7 @@ caso queira usar o insomnia, segue um arquivo já com as rotas para ultilizar, t
 nas rotas ````/api/courses```` e ````/api/offers```` foi feito cache com ETS
 
 # Deploy
-A aplicação está no gigalixir no endereço ```https://quero-api.gigalixirapp.com/```. Um dos motivos de escolher o gigalixir é que não tem sleeps da aplicação no plano free.
+A aplicação está no gigalixir no endereço <https://quero-api.gigalixirapp.com/>. Um dos motivos de escolher o gigalixir é que não tem sleeps da aplicação no plano free.
 
 # GET listar cursos projeto local e em produção
 
